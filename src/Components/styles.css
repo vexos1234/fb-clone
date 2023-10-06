@@ -1,0 +1,12 @@
+
+.button-hover-gray {
+    border: none;
+  }
+  
+  .button-hover-gray:hover {
+    color: #000000;
+  }
+
+  .hover-class:hover {
+    background-color: #9CD2F9;
+  }

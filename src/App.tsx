@@ -11,6 +11,7 @@ import { useEffect, useState } from "react";
 import { supabase } from "./supabaseClient";
 import { AuthSession } from "@supabase/supabase-js";
 import Layout from "./routes/Layout";
+import "./styles.css";
 
 const publicPages = createBrowserRouter([
   {
@@ -32,14 +33,16 @@ export default function App() {
   if (session) {
     return (
       // private routes
-      <BrowserRouter>
-        <Routes>
-          <Route element={<Layout onLogOut={() => setSession(null)} />}>
-            <Route index element={<Home />} />
-            <Route path="profile" element={<h1>profile</h1>} />
-          </Route>
-        </Routes>
-      </BrowserRouter>
+      <div className="root-container">
+        <BrowserRouter>
+          <Routes>
+            <Route element={<Layout onLogOut={() => setSession(null)} />}>
+              <Route index element={<Home />} />
+              <Route path="profile" element={<h1>profile</h1>} />
+            </Route>
+          </Routes>
+        </BrowserRouter>
+      </div>
     );
   }
 
