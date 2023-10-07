@@ -81,7 +81,7 @@ const TopNavbar = () => {
           <Container>
             {/* center of the TopNavbar */}
             <Link to="/">
-              <button style={centerButtonStyle}>
+              <button style={centerButtonStyle} size="large">
                 <IconHome size={fontSize} />
               </button>
             </Link>

@@ -1,75 +1,62 @@
-import { Avatar, Box, Grid, Stack, TextField } from "@mui/material";
+import {
+  Avatar,
+  Box,
+  Grid,
+  Icon,
+  Stack,
+  TextField,
+  Typography,
+} from "@mui/material";
+import React from "react";
 import "./styles.css";
+import { Bars } from "../icons/Bars";
 import HomeIcon from "@mui/icons-material/Home";
 import OndemandVideoIcon from "@mui/icons-material/OndemandVideo";
 import StorefrontIcon from "@mui/icons-material/Storefront";
 import GroupIcon from "@mui/icons-material/Group";
 import VideogameAssetIcon from "@mui/icons-material/VideogameAsset";
-import NotificationsIcon from "@mui/icons-material/Notifications";
-import MarkChatUnreadIcon from "@mui/icons-material/MarkChatUnread";
-import AppsIcon from "@mui/icons-material/Apps";
+import Bell from "../icons/Bell";
+import Menu from "../icons/Menu";
+import Link from "next/link";
 
 const ovalInputStyle = {
   borderRadius: "30px",
   overflow: "hidden",
   width: "240px",
-  height: "20px",
+  height: "40px",
 };
-import { Link, Outlet, useNavigate } from "react-router-dom";
-import { supabase } from "../supabaseClient";
-import FacebookIcon from "../icons/FacebookIcon";
 
-export default function Demo(props: { onLogOut: () => void }) {
-  const navigate = useNavigate();
+export default function NavbarTop() {
   const iconSize = 28;
-
-  const handleSignOut = async () => {
-    await supabase.auth.signOut();
-    props.onLogOut();
-    navigate("/");
-  };
 
   return (
     <div className="navbar-container">
-      <Grid
-        container
-        spacing={1}
-        sx={{
-          textAlign: "center",
-          backgroundColor: "#fff",
-          display: "flex",
-          justifyContent: "center",
-          alignItems: "center",
-        }}>
+      <Grid container spacing={10} className="grid-container">
         <Grid item xs={3} className="left">
-          <Stack direction="row" spacing={1}>
-            <FacebookIcon />
-            <Box>
+          <Stack direction="row" spacing={2}>
+            <Avatar
+              className="clickable-icon"
+              src="../favicon.ico"
+              alt="Scales of Justice Brand Image"
+              sx={{ width: 40, height: 40 }}
+            />
+            <Box sx={ovalInputStyle}>
               <TextField
                 fullWidth
                 variant="outlined"
                 size="small"
                 placeholder="Oval Input"
                 sx={{
-                  backgroundColor: "#F0F2F5",
+                  backgroundColor: "#3A3B3C",
                   borderRadius: "30px",
                 }}
-                focused={true}
               />
             </Box>
           </Stack>
         </Grid>
-        <Grid
-          item
-          xs={6}
-          sx={{
-            display: "flex",
-            textAlign: "center",
-            justifyContent: "center",
-          }}>
-          {/* center icons */}
+        <Grid item xs={6} className="center-grid">
           <Stack direction="row" spacing={11}>
-            <Link to="/">
+            <Link href="/home">
               <HomeIcon
                 className="clickable-icon"
                 sx={{ width: `${iconSize}px`, height: `${iconSize}px` }}
@@ -95,13 +82,13 @@ export default function Demo(props: { onLogOut: () => void }) {
         </Grid>
         <Grid item xs={3} className="right">
           <Stack direction="row" spacing={3}>
-            <AppsIcon />
+            <Menu />
 
             {/* message icon */}
-            <MarkChatUnreadIcon />
+            <Bars />
 
-            <NotificationsIcon />
-            <Link to="/profile">
+            <Bell />
+            <Link href="/profile">
               <Avatar
                 className="clickable-icon"
                 src="../favicon.ico"
