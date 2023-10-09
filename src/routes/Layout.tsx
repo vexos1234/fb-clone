@@ -1,4 +1,4 @@
-import { Avatar, Box, Grid, Stack, TextField } from "@mui/material";
+import { Avatar, Box, Button, Grid, Stack, TextField } from "@mui/material";
 import "./styles.css";
 import HomeIcon from "@mui/icons-material/Home";
 import OndemandVideoIcon from "@mui/icons-material/OndemandVideo";
@@ -40,7 +40,8 @@ export default function Demo(props: { onLogOut: () => void }) {
           display: "flex",
           justifyContent: "center",
           alignItems: "center",
-        }}>
+        }}
+      >
         <Grid item xs={3} className="left">
           <Stack direction="row" spacing={1}>
             <FacebookIcon />
@@ -66,31 +67,73 @@ export default function Demo(props: { onLogOut: () => void }) {
             display: "flex",
             textAlign: "center",
             justifyContent: "center",
-          }}>
+          }}
+        >
           {/* center icons */}
-          <Stack direction="row" spacing={11}>
+          <Stack direction="row" spacing={1}>
             <Link to="/">
-              <HomeIcon
-                className="clickable-icon"
-                sx={{ width: `${iconSize}px`, height: `${iconSize}px` }}
-              />
+              <Button sx={{ backgroundColor: "#fff", width: "111px" }}>
+                <HomeIcon
+                  className="clickable-icon"
+                  sx={{
+                    color: "#606266",
+                    width: `${iconSize}px`,
+                    height: `${iconSize}px`,
+                  }}
+                />
+              </Button>
             </Link>
-            <OndemandVideoIcon
-              className="clickable-icon"
-              sx={{ width: `${iconSize}px`, height: `${iconSize}px` }}
-            />
-            <StorefrontIcon
-              className="clickable-icon"
-              sx={{ width: `${iconSize}px`, height: `${iconSize}px` }}
-            />
-            <GroupIcon
-              className="clickable-icon"
-              sx={{ width: `${iconSize}px`, height: `${iconSize}px` }}
-            />
-            <VideogameAssetIcon
-              className="clickable-icon"
-              sx={{ width: `${iconSize}px`, height: `${iconSize}px` }}
-            />
+            <Link to="/video">
+              <Button sx={{ backgroundColor: "#fff", width: "111px" }}>
+                <OndemandVideoIcon
+                  className="clickable-icon"
+                  sx={{
+                    color: "#606266",
+                    width: `${iconSize}px`,
+                    height: `${iconSize}px`,
+                  }}
+                />
+              </Button>
+            </Link>
+
+            <Link to="/market">
+              <Button sx={{ backgroundColor: "#fff", width: "111px" }}>
+                <StorefrontIcon
+                  className="clickable-icon"
+                  sx={{
+                    color: "#606266",
+                    width: `${iconSize}px`,
+                    height: `${iconSize}px`,
+                  }}
+                />
+              </Button>
+            </Link>
+
+            <Link to="/groups">
+              <Button sx={{ backgroundColor: "#fff", width: "111px" }}>
+                <GroupIcon
+                  className="clickable-icon"
+                  sx={{
+                    color: "#606266",
+                    width: `${iconSize}px`,
+                    height: `${iconSize}px`,
+                  }}
+                />
+              </Button>
+            </Link>
+
+            <Link to="/games">
+              <Button sx={{ backgroundColor: "#fff", width: "111px" }}>
+                <VideogameAssetIcon
+                  className="clickable-icon"
+                  sx={{
+                    color: "#606266",
+                    width: `${iconSize}px`,
+                    height: `${iconSize}px`,
+                  }}
+                />
+              </Button>
+            </Link>
           </Stack>
         </Grid>
         <Grid item xs={3} className="right">
