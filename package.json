@@ -12,8 +12,6 @@
   "dependencies": {
     "@emotion/react": "^11.11.1",
     "@emotion/styled": "^11.11.0",
-    "@mantine/core": "^7.1.0",
-    "@mantine/hooks": "^7.1.0",
     "@mui/icons-material": "^5.14.12",
     "@mui/material": "^5.14.12",
     "@supabase/auth-ui-react": "^0.4.5",

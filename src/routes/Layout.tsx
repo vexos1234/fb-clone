@@ -1,4 +1,12 @@
-import { Avatar, Box, Button, Grid, Stack, TextField } from "@mui/material";
+import {
+  Avatar,
+  Box,
+  Button,
+  Container,
+  Grid,
+  Stack,
+  TextField,
+} from "@mui/material";
 import "./styles.css";
 import HomeIcon from "@mui/icons-material/Home";
 import OndemandVideoIcon from "@mui/icons-material/OndemandVideo";
@@ -40,8 +48,7 @@ export default function Demo(props: { onLogOut: () => void }) {
           display: "flex",
           justifyContent: "center",
           alignItems: "center",
-        }}
-      >
+        }}>
         <Grid item xs={3} className="left">
           <Stack direction="row" spacing={1}>
             <FacebookIcon />
@@ -67,12 +74,20 @@ export default function Demo(props: { onLogOut: () => void }) {
             display: "flex",
             textAlign: "center",
             justifyContent: "center",
-          }}
-        >
+          }}>
           {/* center icons */}
           <Stack direction="row" spacing={1}>
             <Link to="/">
-              <Button sx={{ backgroundColor: "#fff", width: "111px" }}>
+              <Button
+                sx={{
+                  backgroundColor: "#fff",
+                  width: "111px",
+                  height: "56px",
+                  borderRadius: "10px",
+                  "&:hover": {
+                    backgroundColor: "#F2F2F2",
+                  },
+                }}>
                 <HomeIcon
                   className="clickable-icon"
                   sx={{
@@ -84,7 +99,16 @@ export default function Demo(props: { onLogOut: () => void }) {
               </Button>
             </Link>
             <Link to="/video">
-              <Button sx={{ backgroundColor: "#fff", width: "111px" }}>
+              <Button
+                sx={{
+                  backgroundColor: "#fff",
+                  width: "111px",
+                  height: "56px",
+                  borderRadius: "10px",
+                  "&:hover": {
+                    backgroundColor: "#F2F2F2",
+                  },
+                }}>
                 <OndemandVideoIcon
                   className="clickable-icon"
                   sx={{
@@ -97,7 +121,16 @@ export default function Demo(props: { onLogOut: () => void }) {
             </Link>
 
             <Link to="/market">
-              <Button sx={{ backgroundColor: "#fff", width: "111px" }}>
+              <Button
+                sx={{
+                  backgroundColor: "#fff",
+                  width: "111px",
+                  height: "56px",
+                  borderRadius: "10px",
+                  "&:hover": {
+                    backgroundColor: "#F2F2F2",
+                  },
+                }}>
                 <StorefrontIcon
                   className="clickable-icon"
                   sx={{
@@ -110,7 +143,16 @@ export default function Demo(props: { onLogOut: () => void }) {
             </Link>
 
             <Link to="/groups">
-              <Button sx={{ backgroundColor: "#fff", width: "111px" }}>
+              <Button
+                sx={{
+                  backgroundColor: "#fff",
+                  width: "111px",
+                  height: "56px",
+                  borderRadius: "10px",
+                  "&:hover": {
+                    backgroundColor: "#F2F2F2",
+                  },
+                }}>
                 <GroupIcon
                   className="clickable-icon"
                   sx={{
@@ -123,7 +165,16 @@ export default function Demo(props: { onLogOut: () => void }) {
             </Link>
 
             <Link to="/games">
-              <Button sx={{ backgroundColor: "#fff", width: "111px" }}>
+              <Button
+                sx={{
+                  backgroundColor: "#fff",
+                  width: "111px",
+                  height: "56px",
+                  borderRadius: "10px",
+                  "&:hover": {
+                    backgroundColor: "#F2F2F2",
+                  },
+                }}>
                 <VideogameAssetIcon
                   className="clickable-icon"
                   sx={{
@@ -137,7 +188,7 @@ export default function Demo(props: { onLogOut: () => void }) {
           </Stack>
         </Grid>
         <Grid item xs={3} className="right">
-          <Stack direction="row" spacing={3}>
+          <Stack direction="row" spacing={3} sx={{ marginRight: "15px" }}>
             <AppsIcon />
 
             {/* message icon */}

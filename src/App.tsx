@@ -11,7 +11,6 @@ import { useEffect, useState } from "react";
 import { supabase } from "./supabaseClient";
 import { AuthSession } from "@supabase/supabase-js";
 import Layout from "./routes/Layout";
-import "./styles.css";
 
 const publicPages = createBrowserRouter([
   {
