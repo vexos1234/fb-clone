@@ -32,7 +32,7 @@ export default function App() {
   if (session) {
     return (
       // private routes
-      <div className="root-container">
+      <div>
         <BrowserRouter>
           <Routes>
             <Route element={<Layout onLogOut={() => setSession(null)} />}>

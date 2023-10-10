@@ -5,4 +5,5 @@ type UserEntity = Database['public']['Tables']['users']['Row']
 
 export type Post = PostEntity & {
   user: UserEntity
+  image: string
 }

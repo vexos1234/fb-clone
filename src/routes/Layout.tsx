@@ -1,211 +1,48 @@
-import {
-  Avatar,
-  Box,
-  Button,
-  Container,
-  Grid,
-  Stack,
-  TextField,
-} from "@mui/material";
-import "./styles.css";
-import HomeIcon from "@mui/icons-material/Home";
-import OndemandVideoIcon from "@mui/icons-material/OndemandVideo";
-import StorefrontIcon from "@mui/icons-material/Storefront";
-import GroupIcon from "@mui/icons-material/Group";
-import VideogameAssetIcon from "@mui/icons-material/VideogameAsset";
-import NotificationsIcon from "@mui/icons-material/Notifications";
-import MarkChatUnreadIcon from "@mui/icons-material/MarkChatUnread";
-import AppsIcon from "@mui/icons-material/Apps";
-
-const ovalInputStyle = {
-  borderRadius: "30px",
-  overflow: "hidden",
-  width: "240px",
-  height: "20px",
-};
-import { Link, Outlet, useNavigate } from "react-router-dom";
+import { useEffect, useState } from "react";
+import TopNavbar from "../Components/TopNavbar";
+import { AuthSession } from "@supabase/supabase-js";
 import { supabase } from "../supabaseClient";
-import FacebookIcon from "../icons/FacebookIcon";
+import { Box, Container, Grid } from "@mui/material";
+import ContentCard from "../Components/ContentCard";
 
-export default function Demo(props: { onLogOut: () => void }) {
-  const navigate = useNavigate();
-  const iconSize = 28;
+function Layout(props: { onLogOut: () => void }) {
+  const [session, SetSession] = useState<AuthSession | null>();
 
-  const handleSignOut = async () => {
-    await supabase.auth.signOut();
-    props.onLogOut();
-    navigate("/");
-  };
+  useEffect(() => {
+    supabase.auth.getSession().then(({ data: { session } }) => {
+      console.log("session on layout:", session);
+      SetSession(session);
+    });
+  }, []);
 
-  return (
-    <div className="navbar-container">
-      <Grid
-        container
-        spacing={1}
-        sx={{
-          textAlign: "center",
-          backgroundColor: "#fff",
-          display: "flex",
-          justifyContent: "center",
-          alignItems: "center",
-        }}>
-        <Grid item xs={3} className="left">
-          <Stack direction="row" spacing={1}>
-            <FacebookIcon />
+  if (session !== undefined)
+    return (
+      <>
+        <TopNavbar session={session} />
+        <Grid container spacing={3} sx={{ marginTop: "40px" }}>
+          <Grid display="flex" justifyContent="center" item xs={3}>
             <Box>
-              <TextField
-                fullWidth
-                variant="outlined"
-                size="small"
-                placeholder="Oval Input"
-                sx={{
-                  backgroundColor: "#F0F2F5",
-                  borderRadius: "30px",
-                }}
-                focused={true}
-              />
+              <h1>left content</h1>
             </Box>
-          </Stack>
+          </Grid>
+          <Grid
+            display="flex"
+            justifyContent="center"
+            flexDirection="column"
+            item
+            xs={6}
+            sx={{ border: "1px solid #000000" }}
+          >
+            <ContentCard />
+          </Grid>
+          <Grid item xs={3}>
+            <Box>
+              <h1>right content</h1>
+            </Box>
+          </Grid>
         </Grid>
-        <Grid
-          item
-          xs={6}
-          sx={{
-            display: "flex",
-            textAlign: "center",
-            justifyContent: "center",
-          }}>
-          {/* center icons */}
-          <Stack direction="row" spacing={1}>
-            <Link to="/">
-              <Button
-                sx={{
-                  backgroundColor: "#fff",
-                  width: "111px",
-                  height: "56px",
-                  borderRadius: "10px",
-                  "&:hover": {
-                    backgroundColor: "#F2F2F2",
-                  },
-                }}>
-                <HomeIcon
-                  className="clickable-icon"
-                  sx={{
-                    color: "#606266",
-                    width: `${iconSize}px`,
-                    height: `${iconSize}px`,
-                  }}
-                />
-              </Button>
-            </Link>
-            <Link to="/video">
-              <Button
-                sx={{
-                  backgroundColor: "#fff",
-                  width: "111px",
-                  height: "56px",
-                  borderRadius: "10px",
-                  "&:hover": {
-                    backgroundColor: "#F2F2F2",
-                  },
-                }}>
-                <OndemandVideoIcon
-                  className="clickable-icon"
-                  sx={{
-                    color: "#606266",
-                    width: `${iconSize}px`,
-                    height: `${iconSize}px`,
-                  }}
-                />
-              </Button>
-            </Link>
-
-            <Link to="/market">
-              <Button
-                sx={{
-                  backgroundColor: "#fff",
-                  width: "111px",
-                  height: "56px",
-                  borderRadius: "10px",
-                  "&:hover": {
-                    backgroundColor: "#F2F2F2",
-                  },
-                }}>
-                <StorefrontIcon
-                  className="clickable-icon"
-                  sx={{
-                    color: "#606266",
-                    width: `${iconSize}px`,
-                    height: `${iconSize}px`,
-                  }}
-                />
-              </Button>
-            </Link>
-
-            <Link to="/groups">
-              <Button
-                sx={{
-                  backgroundColor: "#fff",
-                  width: "111px",
-                  height: "56px",
-                  borderRadius: "10px",
-                  "&:hover": {
-                    backgroundColor: "#F2F2F2",
-                  },
-                }}>
-                <GroupIcon
-                  className="clickable-icon"
-                  sx={{
-                    color: "#606266",
-                    width: `${iconSize}px`,
-                    height: `${iconSize}px`,
-                  }}
-                />
-              </Button>
-            </Link>
-
-            <Link to="/games">
-              <Button
-                sx={{
-                  backgroundColor: "#fff",
-                  width: "111px",
-                  height: "56px",
-                  borderRadius: "10px",
-                  "&:hover": {
-                    backgroundColor: "#F2F2F2",
-                  },
-                }}>
-                <VideogameAssetIcon
-                  className="clickable-icon"
-                  sx={{
-                    color: "#606266",
-                    width: `${iconSize}px`,
-                    height: `${iconSize}px`,
-                  }}
-                />
-              </Button>
-            </Link>
-          </Stack>
-        </Grid>
-        <Grid item xs={3} className="right">
-          <Stack direction="row" spacing={3} sx={{ marginRight: "15px" }}>
-            <AppsIcon />
-
-            {/* message icon */}
-            <MarkChatUnreadIcon />
-
-            <NotificationsIcon />
-            <Link to="/profile">
-              <Avatar
-                className="clickable-icon"
-                src="../favicon.ico"
-                alt="Scales of Justice Brand Image"
-                sx={{ width: 28, height: 28 }}
-              />
-            </Link>
-          </Stack>
-        </Grid>
-      </Grid>
-    </div>
-  );
+      </>
+    );
 }
+
+export default Layout;

@@ -1,137 +1,297 @@
-import { Button, Container, Paper, TextInput, ThemeIcon } from "@mantine/core";
 import {
-  IconHome,
-  IconVideo,
-  IconBuildingStore,
-  IconUsersGroup,
-  IconDeviceGamepad,
-  IconGridDots,
-  IconBrandMessenger,
-  IconBellFilled,
-} from "@tabler/icons-react";
-import { Link } from "react-router-dom";
-import FacebookIcon from "../icons/FacebookIcon.tsx";
+  Avatar,
+  Box,
+  Button,
+  Container,
+  Grid,
+  IconButton,
+  Stack,
+  TextField,
+} from "@mui/material";
 import "./styles.css";
+import HomeIcon from "@mui/icons-material/Home";
+import OndemandVideoIcon from "@mui/icons-material/OndemandVideo";
+import StorefrontIcon from "@mui/icons-material/Storefront";
+import GroupIcon from "@mui/icons-material/Group";
+import VideogameAssetIcon from "@mui/icons-material/VideogameAsset";
+import NotificationsIcon from "@mui/icons-material/Notifications";
+import MarkChatUnreadIcon from "@mui/icons-material/MarkChatUnread";
+import AppsIcon from "@mui/icons-material/Apps";
 
-const TopNavbar = () => {
-  const fontSize = "24px";
-  const rightButtonSize = "23px";
+const ovalInputStyle = {
+  borderRadius: "30px",
+  overflow: "hidden",
+  width: "240px",
+  height: "20px",
+};
+import { Link, Outlet, useNavigate } from "react-router-dom";
+import { supabase } from "../supabaseClient";
+import FacebookIcon from "../icons/FacebookIcon";
+import { useEffect, useState } from "react";
+import { AuthSession } from "@supabase/supabase-js";
 
-  const centerButtonStyle = {
-    fontWeight: "bold",
-    color: "#848689",
-    backgroundColor: "white",
+interface TopNavbarProps {
+  session: AuthSession | null;
+}
 
-    "&:hover": {
-      backgroundColor: "#F0F2F5",
-      color: "#F0F2F5",
-    },
+export default function TopNavbar({ session }: TopNavbarProps) {
+  // const [session, SetSession] = useState<AuthSession | null>();
+  const navigate = useNavigate();
+  const iconSize = 28;
+
+  // useEffect(() => {
+  //   supabase.auth.getSession().then(({ data: { session } }) => {
+  //     console.log("session on layout:", session);
+  //     SetSession(session);
+  //   });
+  // }, []);
+
+  const handleSignOut = async () => {
+    await supabase.auth.signOut();
+    props.onLogOut();
+    navigate("/");
   };
 
-  return (
-    <Paper
-      p="sm"
-      shadow="md"
-      style={{
-        position: "sticky",
-        top: 0,
-        zIndex: 100,
-        height: "60px",
-        display: "flex",
-      }}>
-      <Container size="lg" style={{ marginTop: "-5px" }}>
-        <div
-          style={{
+  console.log(session);
+
+  if (session)
+    return (
+      <div className="navbar-container">
+        <Grid
+          container
+          spacing={1}
+          sx={{
+            textAlign: "center",
+            backgroundColor: "#fff",
             display: "flex",
-            justifyContent: "space-between",
+            justifyContent: "center",
             alignItems: "center",
-          }}>
-          {/* left side of the TopNavbar */}
-          <Container
-            style={{
+          }}
+        >
+          <Grid
+            item
+            xs={3}
+            sx={{
               display: "flex",
               alignItems: "center",
-              marginRight: "auto",
-              border: "1px solid black",
-            }}>
-            <Link
-              to="/"
-              style={{
-                textDecoration: "none",
-                marginRight: "5px",
-                marginTop: "5px",
-              }}>
-              <ThemeIcon radius={50} style={{ width: "40px", height: "40px" }}>
-                <FacebookIcon style={{ width: "39px", height: "39px" }} />
-              </ThemeIcon>
-            </Link>
-            <TextInput
-              radius={300}
-              placeholder="Search"
-              id="search-input"
-              styles={{
-                input: {
+            }}
+          >
+            <Stack
+              direction="row"
+              sx={{ marginLeft: "5px", alignItems: "center" }}
+            >
+              <Link to="/">
+                <IconButton disableRipple>
+                  <FacebookIcon />
+                </IconButton>
+              </Link>
+              <Box>
+                <TextField
+                  fullWidth
+                  variant="outlined"
+                  size="small"
+                  placeholder="Search"
+                  sx={{
+                    backgroundColor: "#F0F2F5",
+                    borderRadius: "30px",
+                  }}
+                  focused={true}
+                />
+              </Box>
+            </Stack>
+          </Grid>
+          <Grid
+            item
+            xs={6}
+            sx={{
+              display: "flex",
+              textAlign: "center",
+              justifyContent: "center",
+            }}
+          >
+            {/* center icons */}
+            <Stack direction="row" spacing={1} sx={{ alignItems: "center" }}>
+              <Link to="/">
+                <Button
+                  sx={{
+                    backgroundColor: "#fff",
+                    width: "111px",
+                    height: "48px",
+                    borderRadius: "10px",
+                    "&:hover": {
+                      backgroundColor: "#F2F2F2",
+                    },
+                  }}
+                >
+                  <HomeIcon
+                    className="clickable-icon"
+                    sx={{
+                      color: "#606266",
+                      width: `${iconSize}px`,
+                      height: `${iconSize}px`,
+                    }}
+                  />
+                </Button>
+              </Link>
+              <Link to="/video">
+                <Button
+                  sx={{
+                    backgroundColor: "#fff",
+                    width: "111px",
+                    height: "48px",
+                    borderRadius: "10px",
+                    "&:hover": {
+                      backgroundColor: "#F2F2F2",
+                    },
+                  }}
+                >
+                  <OndemandVideoIcon
+                    className="clickable-icon"
+                    sx={{
+                      color: "#606266",
+                      width: `${iconSize}px`,
+                      height: `${iconSize}px`,
+                    }}
+                  />
+                </Button>
+              </Link>
+
+              <Link to="/market">
+                <Button
+                  sx={{
+                    backgroundColor: "#fff",
+                    width: "111px",
+                    height: "48px",
+                    borderRadius: "10px",
+                    "&:hover": {
+                      backgroundColor: "#F2F2F2",
+                    },
+                  }}
+                >
+                  <StorefrontIcon
+                    className="clickable-icon"
+                    sx={{
+                      color: "#606266",
+                      width: `${iconSize}px`,
+                      height: `${iconSize}px`,
+                    }}
+                  />
+                </Button>
+              </Link>
+
+              <Link to="/groups">
+                <Button
+                  sx={{
+                    backgroundColor: "#fff",
+                    width: "111px",
+                    height: "48px",
+                    borderRadius: "10px",
+                    "&:hover": {
+                      backgroundColor: "#F2F2F2",
+                    },
+                  }}
+                >
+                  <GroupIcon
+                    className="clickable-icon"
+                    sx={{
+                      color: "#606266",
+                      width: `${iconSize}px`,
+                      height: `${iconSize}px`,
+                    }}
+                  />
+                </Button>
+              </Link>
+
+              <Link to="/games">
+                <Button
+                  sx={{
+                    backgroundColor: "#fff",
+                    width: "111px",
+                    height: "48px",
+                    borderRadius: "10px",
+                    "&:hover": {
+                      backgroundColor: "#F2F2F2",
+                    },
+                  }}
+                >
+                  <VideogameAssetIcon
+                    className="clickable-icon"
+                    sx={{
+                      color: "#606266",
+                      width: `${iconSize}px`,
+                      height: `${iconSize}px`,
+                    }}
+                  />
+                </Button>
+              </Link>
+            </Stack>
+          </Grid>
+          <Grid item xs={3} className="right">
+            <Stack
+              direction="row"
+              spacing={1}
+              sx={{ marginRight: "15px", alignItems: "center" }}
+            >
+              <IconButton
+                sx={{
+                  height: "40px !important",
+                  width: "40px !important",
                   backgroundColor: "#F0F2F5",
-                  height: "40px",
-                  width: "212px",
-                },
-              }}
-            />
-          </Container>
-          <Container>
-            {/* center of the TopNavbar */}
-            <Link to="/">
-              <button style={centerButtonStyle} size="large">
-                <IconHome size={fontSize} />
-              </button>
-            </Link>
+                  borderRadius: "50% !important",
+                  display: "flex",
+                  justifyContent: "center",
+                  alignItems: "center",
+                  "&:hover": {
+                    backgroundColor: "#ccc",
+                  },
+                }}
+              >
+                <AppsIcon sx={{ color: "#000000" }} />
+              </IconButton>
 
-            <Link to="/video">
-              <Button style={centerButtonStyle} size="large">
-                <IconVideo size={fontSize} />
-              </Button>
-            </Link>
-
-            <Link to="/market">
-              <Button style={centerButtonStyle} size="large">
-                <IconBuildingStore size={fontSize} />
-              </Button>
-            </Link>
-
-            <Link to="/groups">
-              <Button style={centerButtonStyle} size="large">
-                <IconUsersGroup size={fontSize} />
-              </Button>
-            </Link>
-
-            <Link to="/games">
-              <Button style={centerButtonStyle} size="large">
-                <IconDeviceGamepad size={fontSize} />
-              </Button>
-            </Link>
-          </Container>
-
-          <Container>
-            {/* right side of the top TopNavbar */}
-            <Link
-              to="/"
-              style={{ textDecoration: "none", marginRight: "20px" }}>
-              <IconGridDots size={rightButtonSize} />
-            </Link>
-            <Link
-              to="/about"
-              style={{ textDecoration: "none", marginRight: "20px" }}>
-              <IconBrandMessenger size={rightButtonSize} />
-            </Link>
-            <Link to="/contact" style={{ textDecoration: "none" }}>
-              <IconBellFilled size={rightButtonSize} />
-            </Link>
-            <Link to="/profile">{/* profile picture */}</Link>
-          </Container>
-        </div>
-      </Container>
-    </Paper>
-  );
-};
-
-export default TopNavbar;
+              <IconButton
+                sx={{
+                  height: "40px !important",
+                  width: "40px !important",
+                  backgroundColor: "#F0F2F5",
+                  borderRadius: "50% !important",
+                  display: "flex",
+                  justifyContent: "center",
+                  alignItems: "center",
+                  "&:hover": {
+                    backgroundColor: "#ccc",
+                  },
+                }}
+              >
+                <MarkChatUnreadIcon sx={{ color: "#000000" }} />
+              </IconButton>
+              <IconButton
+                sx={{
+                  height: "40px !important",
+                  width: "40px !important",
+                  backgroundColor: "#F0F2F5",
+                  borderRadius: "50% !important",
+                  display: "flex",
+                  justifyContent: "center",
+                  alignItems: "center",
+                  "&:hover": {
+                    backgroundColor: "#ccc",
+                  },
+                }}
+              >
+                <NotificationsIcon sx={{ color: "#000000" }} />
+              </IconButton>
+              <Link to="/profile">
+                <Avatar
+                  className="clickable-icon"
+                  src={session.user.user_metadata.avatar_url}
+                  alt="Scales of Justice Brand Image"
+                  sx={{ width: 40, height: 40 }}
+                />
+              </Link>
+            </Stack>
+          </Grid>
+        </Grid>
+      </div>
+    );
+}

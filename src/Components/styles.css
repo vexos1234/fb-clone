@@ -1,12 +1,58 @@
 
-.button-hover-gray {
-    border: none;
-  }
-  
-  .button-hover-gray:hover {
-    color: #000000;
-  }
+  .navbar-container {
+    display: flex;
+    min-height: 56px;
+    width: 100%;
+    position: fixed;
+    top: 0px;
+    z-index: 999;
+    box-shadow: 0px 3px 5px rgba(0, 0, 0, 0.2);
+}
 
-  .hover-class:hover {
-    background-color: #9CD2F9;
-  }
+.MuiTextField-root .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline {
+  border-color: transparent !important;
+  box-shadow: transparent !important;
+  outline: none !important;
+}
+
+.MuiTextField-root:hover .MuiOutlinedInput-root .MuiOutlinedInput-notchedOutline {
+  border-color: transparent !important;
+}
+
+.MuiOutlinedInput-root .MuiOutlinedInput-notchedOutline {
+  border-bottom: none !important;
+}
+
+.MuiTextField-root:hover .MuiOutlinedInput-root .MuiOutlinedInput-notchedOutline {
+  border-color: transparent !important;
+}
+
+.right {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  flex: 1;
+  margin-right: 15px;
+}
+
+.left {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  flex: 1;
+  margin-left: 10px;
+}
+
+.center-grid {
+  display: flex;
+  text-align: center;
+  
+}
+
+.grid-container {
+  text-align: center;
+  background-color: #fff;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
