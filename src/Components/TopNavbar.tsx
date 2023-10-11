@@ -234,10 +234,10 @@ export default function TopNavbar({ session }: TopNavbarProps) {
             >
               <IconButton
                 sx={{
-                  height: "40px !important",
-                  width: "40px !important",
+                  height: "40px ",
+                  width: "40px ",
                   backgroundColor: "#F0F2F5",
-                  borderRadius: "50% !important",
+                  borderRadius: "50% ",
                   display: "flex",
                   justifyContent: "center",
                   alignItems: "center",
@@ -251,10 +251,10 @@ export default function TopNavbar({ session }: TopNavbarProps) {
 
               <IconButton
                 sx={{
-                  height: "40px !important",
-                  width: "40px !important",
+                  height: "40px ",
+                  width: "40px ",
                   backgroundColor: "#F0F2F5",
-                  borderRadius: "50% !important",
+                  borderRadius: "50% ",
                   display: "flex",
                   justifyContent: "center",
                   alignItems: "center",
@@ -267,10 +267,10 @@ export default function TopNavbar({ session }: TopNavbarProps) {
               </IconButton>
               <IconButton
                 sx={{
-                  height: "40px !important",
-                  width: "40px !important",
+                  height: "40px ",
+                  width: "40px ",
                   backgroundColor: "#F0F2F5",
-                  borderRadius: "50% !important",
+                  borderRadius: "50% ",
                   display: "flex",
                   justifyContent: "center",
                   alignItems: "center",

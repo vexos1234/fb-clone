@@ -268,3 +268,7 @@
     color: #1A82F5; /* Change to your active icon color */
   }
 
+
+.layout-container {
+    overflow-y: scroll;
+}

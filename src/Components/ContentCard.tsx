@@ -15,7 +15,15 @@ import ChatBubbleOutlineIcon from "@mui/icons-material/ChatBubbleOutline";
 import { supabase } from "../supabaseClient";
 import { useEffect, useState } from "react";
 import { Post } from "../types/posts";
-import { Container } from "@mui/material";
+import {
+  Accordion,
+  AccordionDetails,
+  AccordionSummary,
+  Box,
+  Container,
+  Modal,
+} from "@mui/material";
+import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 
 const style = {
   position: "absolute",
@@ -57,6 +65,9 @@ function formatDate(inputDate) {
 }
 
 export default function ContentCard() {
+  const [open, setOpen] = useState(false);
+  const handleOpen = () => setOpen(true);
+  const handleClose = () => setOpen(false);
   const [posts, setPosts] = useState<Post[] | null>([]);
 
   useEffect(() => {
@@ -136,7 +147,8 @@ export default function ContentCard() {
                   <IconButton
                     sx={{ "&:hover": { backgroundColor: "transparent" } }}
                     aria-label="settings"
-                    onClick={() => handleDelete(id)}
+                    // onClick={() => handleDelete(id)}
+                    onClick={handleOpen}
                   >
                     <CloseIcon sx={{ color: "#000000" }} />
                   </IconButton>
@@ -215,21 +227,47 @@ export default function ContentCard() {
                 </IconButton>
               </CardActions>
               {/* <InputWithButtons className="input-component-container" /> */}
-              <Typography sx={{ color: "#B0B3B8", marginLeft: "10px" }}>
-                View more comments
-              </Typography>
 
               <CardContent>
-                <Typography paragraph>comments:</Typography>
-                <Typography paragraph>comment 1</Typography>
-                <Typography paragraph>comment 2</Typography>
-                <Typography paragraph>comment 3</Typography>
-                <Typography>comment 4</Typography>
+                {/* if comments lenght > 1, show accordion */}
+                <Accordion>
+                  <AccordionSummary expandIcon={<ExpandMoreIcon />}>
+                    <Typography>Click to show/hide comments</Typography>
+                  </AccordionSummary>
+                  <AccordionDetails>
+                    <Typography paragraph>comments:</Typography>
+                    <Typography paragraph>comment 1</Typography>
+                    <Typography paragraph>comment 2</Typography>
+                    <Typography paragraph>comment 3</Typography>
+                    <Typography>comment 4</Typography>
+                  </AccordionDetails>
+                </Accordion>
               </CardContent>
             </Card>
           </Container>
         );
       })}
+      <Modal
+        sx={{ overflowY: "scroll" }}
+        open={open}
+        onClose={handleClose}
+        aria-labelledby="modal-modal-title"
+        aria-describedby="modal-modal-description"
+      >
+        <Box
+          sx={{
+            ...style,
+            marginRight: open ? "32px" : "0", // Adjust the margin to match your scrollbar width
+          }}
+        >
+          <Typography id="modal-modal-title" variant="h6" component="h2">
+            Text in a modal
+          </Typography>
+          <Typography id="modal-modal-description" sx={{ mt: 2 }}>
+            Duis mollis, est non commodo luctus, nisi erat porttitor ligula.
+          </Typography>
+        </Box>
+      </Modal>
     </>
   ) : (
     <h1>Loading</h1>

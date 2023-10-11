@@ -4,6 +4,7 @@ import { AuthSession } from "@supabase/supabase-js";
 import { supabase } from "../supabaseClient";
 import { Box, Container, Grid } from "@mui/material";
 import ContentCard from "../Components/ContentCard";
+import "./styles.css";
 
 function Layout(props: { onLogOut: () => void }) {
   const [session, SetSession] = useState<AuthSession | null>();
