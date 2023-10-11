@@ -9,20 +9,18 @@ import CardActions from "@mui/material/CardActions";
 import Avatar from "@mui/material/Avatar";
 import IconButton from "@mui/material/IconButton";
 import Typography from "@mui/material/Typography";
-import { red } from "@mui/material/colors";
 import ShortcutIcon from "@mui/icons-material/Shortcut";
 import CloseIcon from "@mui/icons-material/Close";
 import ThumbUpAltOutlinedIcon from "@mui/icons-material/ThumbUpAltOutlined";
 import ChatBubbleOutlineIcon from "@mui/icons-material/ChatBubbleOutline";
 import { supabase } from "../supabaseClient";
-import { MouseEventHandler, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { Post } from "../types/posts";
 import {
   Accordion,
   AccordionDetails,
   AccordionSummary,
   Box,
-  Button,
   Container,
   Modal,
   Stack,
@@ -309,7 +307,7 @@ export default function ContentCard() {
                 <DeleteForeverIcon />
                 <Typography marginLeft="5px">Delete</Typography>
               </IconButton>
-              <IconButton sx={{ borderRadius: "2px" }}>
+              <IconButton sx={{ borderRadius: "2px" }} onClick={handleClose}>
                 <UndoIcon />
                 <Typography marginLeft="5px">Cancel</Typography>
               </IconButton>
