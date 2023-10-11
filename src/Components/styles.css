@@ -3,10 +3,11 @@
     display: flex;
     min-height: 56px;
     width: 100%;
-    position: fixed;
+    position: sticky;
     top: 0px;
     z-index: 999;
     box-shadow: 0px 3px 5px rgba(0, 0, 0, 0.2);
+    
 }
 
 .MuiTextField-root .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline {

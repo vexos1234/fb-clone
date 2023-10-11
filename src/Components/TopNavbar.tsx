@@ -66,20 +66,18 @@ export default function TopNavbar({ session }: TopNavbarProps) {
             display: "flex",
             justifyContent: "center",
             alignItems: "center",
-          }}
-        >
+            position: "fixed",
+          }}>
           <Grid
             item
             xs={3}
             sx={{
               display: "flex",
               alignItems: "center",
-            }}
-          >
+            }}>
             <Stack
               direction="row"
-              sx={{ marginLeft: "5px", alignItems: "center" }}
-            >
+              sx={{ marginLeft: "5px", alignItems: "center" }}>
               <Link to="/">
                 <IconButton disableRipple>
                   <FacebookIcon />
@@ -107,8 +105,7 @@ export default function TopNavbar({ session }: TopNavbarProps) {
               display: "flex",
               textAlign: "center",
               justifyContent: "center",
-            }}
-          >
+            }}>
             {/* center icons */}
             <Stack direction="row" spacing={1} sx={{ alignItems: "center" }}>
               <Link to="/">
@@ -121,8 +118,7 @@ export default function TopNavbar({ session }: TopNavbarProps) {
                     "&:hover": {
                       backgroundColor: "#F2F2F2",
                     },
-                  }}
-                >
+                  }}>
                   <HomeIcon
                     className="clickable-icon"
                     sx={{
@@ -143,8 +139,7 @@ export default function TopNavbar({ session }: TopNavbarProps) {
                     "&:hover": {
                       backgroundColor: "#F2F2F2",
                     },
-                  }}
-                >
+                  }}>
                   <OndemandVideoIcon
                     className="clickable-icon"
                     sx={{
@@ -166,8 +161,7 @@ export default function TopNavbar({ session }: TopNavbarProps) {
                     "&:hover": {
                       backgroundColor: "#F2F2F2",
                     },
-                  }}
-                >
+                  }}>
                   <StorefrontIcon
                     className="clickable-icon"
                     sx={{
@@ -189,8 +183,7 @@ export default function TopNavbar({ session }: TopNavbarProps) {
                     "&:hover": {
                       backgroundColor: "#F2F2F2",
                     },
-                  }}
-                >
+                  }}>
                   <GroupIcon
                     className="clickable-icon"
                     sx={{
@@ -212,8 +205,7 @@ export default function TopNavbar({ session }: TopNavbarProps) {
                     "&:hover": {
                       backgroundColor: "#F2F2F2",
                     },
-                  }}
-                >
+                  }}>
                   <VideogameAssetIcon
                     className="clickable-icon"
                     sx={{
@@ -230,8 +222,7 @@ export default function TopNavbar({ session }: TopNavbarProps) {
             <Stack
               direction="row"
               spacing={1}
-              sx={{ marginRight: "15px", alignItems: "center" }}
-            >
+              sx={{ marginRight: "15px", alignItems: "center" }}>
               <IconButton
                 sx={{
                   height: "40px ",
@@ -244,8 +235,7 @@ export default function TopNavbar({ session }: TopNavbarProps) {
                   "&:hover": {
                     backgroundColor: "#ccc",
                   },
-                }}
-              >
+                }}>
                 <AppsIcon sx={{ color: "#000000" }} />
               </IconButton>
 
@@ -261,8 +251,7 @@ export default function TopNavbar({ session }: TopNavbarProps) {
                   "&:hover": {
                     backgroundColor: "#ccc",
                   },
-                }}
-              >
+                }}>
                 <MarkChatUnreadIcon sx={{ color: "#000000" }} />
               </IconButton>
               <IconButton
@@ -277,8 +266,7 @@ export default function TopNavbar({ session }: TopNavbarProps) {
                   "&:hover": {
                     backgroundColor: "#ccc",
                   },
-                }}
-              >
+                }}>
                 <NotificationsIcon sx={{ color: "#000000" }} />
               </IconButton>
               <Link to="/profile">

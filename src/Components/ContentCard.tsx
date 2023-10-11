@@ -1,3 +1,5 @@
+// search memo or find another way to only reredener the card component
+
 import "./styles.css";
 import Card from "@mui/material/Card";
 import CardHeader from "@mui/material/CardHeader";
@@ -13,17 +15,22 @@ import CloseIcon from "@mui/icons-material/Close";
 import ThumbUpAltOutlinedIcon from "@mui/icons-material/ThumbUpAltOutlined";
 import ChatBubbleOutlineIcon from "@mui/icons-material/ChatBubbleOutline";
 import { supabase } from "../supabaseClient";
-import { useEffect, useState } from "react";
+import { MouseEventHandler, useEffect, useState } from "react";
 import { Post } from "../types/posts";
 import {
   Accordion,
   AccordionDetails,
   AccordionSummary,
   Box,
+  Button,
   Container,
   Modal,
+  Stack,
 } from "@mui/material";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
+import { Link } from "react-router-dom";
+import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
+import UndoIcon from "@mui/icons-material/Undo";
 
 const style = {
   position: "absolute",
@@ -32,7 +39,6 @@ const style = {
   transform: "translate(-50%, -50%)",
   width: 400,
   bgcolor: "background.paper",
-  border: "2px solid #000",
   boxShadow: 24,
   p: 4,
 };
@@ -66,8 +72,16 @@ function formatDate(inputDate) {
 
 export default function ContentCard() {
   const [open, setOpen] = useState(false);
-  const handleOpen = () => setOpen(true);
+
+  const handleOpen = (postId: number | null) => {
+    if (postId !== null) {
+      setPostIdToDelete(postId);
+      setOpen(true);
+    }
+  };
+
   const handleClose = () => setOpen(false);
+  const [postIdToDelete, setPostIdToDelete] = useState<number | null>(null);
   const [posts, setPosts] = useState<Post[] | null>([]);
 
   useEffect(() => {
@@ -87,7 +101,7 @@ export default function ContentCard() {
     getPosts();
   }, []);
 
-  const handleDelete = async (postId) => {
+  const handleDelete = async (postId: number | null) => {
     try {
       const { error } = await supabase.from("posts").delete().eq("id", postId);
 
@@ -110,53 +124,61 @@ export default function ContentCard() {
 
         return (
           <Container
-            sx={{ display: "flex", justifyContent: "center" }}
-            key={id}
-          >
+            sx={{
+              display: "flex",
+              justifyContent: "center",
+            }}
+            key={id}>
             <Card
               sx={{
                 marginBottom: "16px",
                 background: "#fff",
                 color: "#000000",
-                width: "590px",
-              }}
-            >
+                width: "680px",
+                borderRadius: "10px",
+              }}>
               <CardHeader
                 sx={{ marginBottom: "-5px" }}
                 avatar={
-                  <Avatar
-                    aria-label="profile-picture"
-                    sx={{
-                      height: "36px",
-                      width: "36px",
-                      objectFit: "cover",
-                    }}
-                  >
-                    <img
-                      alt="avatar"
-                      src={avatarUrl}
-                      style={{
-                        height: "36px",
-                        width: "36px",
+                  <Link to="/profile">
+                    <Avatar
+                      aria-label="profile-picture"
+                      sx={{
+                        height: "40px",
+                        width: "40px",
                         objectFit: "cover",
-                      }}
-                    />
-                  </Avatar>
+                        marginRight: "-5px",
+                      }}>
+                      <img
+                        alt="avatar"
+                        src={avatarUrl}
+                        style={{
+                          height: "40px",
+                          width: "40px",
+                          objectFit: "cover",
+                        }}
+                      />
+                    </Avatar>
+                  </Link>
                 }
                 action={
                   <IconButton
-                    sx={{ "&:hover": { backgroundColor: "transparent" } }}
+                    sx={{ "&:hover": { backgroundColor: "#F2F2F2" } }}
                     aria-label="settings"
-                    // onClick={() => handleDelete(id)}
-                    onClick={handleOpen}
-                  >
-                    <CloseIcon sx={{ color: "#000000" }} />
+                    onClick={() => handleOpen(id)}>
+                    <CloseIcon sx={{ color: "#686F78" }} />
                   </IconButton>
                 }
                 title={
-                  <Typography sx={{ fontWeight: "bold", color: "#000000" }}>
-                    {userFullName}
-                  </Typography>
+                  <Link to="/profile" style={{ textDecoration: "none" }}>
+                    <Typography
+                      sx={{
+                        fontWeight: "bold",
+                        color: "#000000",
+                      }}>
+                      {userFullName}
+                    </Typography>
+                  </Link>
                 }
                 subheader={
                   <Typography
@@ -164,8 +186,7 @@ export default function ContentCard() {
                       fontWeight: "bold",
                       color: "#737578",
                       fontSize: "10px",
-                    }}
-                  >
+                    }}>
                     {formatDate(post.created_at)}
                   </Typography>
                 }
@@ -174,14 +195,20 @@ export default function ContentCard() {
               <Typography
                 variant="body2"
                 color="black"
-                sx={{ marginBottom: "5px", marginLeft: "15px" }}
-              >
+                sx={{ marginBottom: "5px", marginLeft: "15px" }}>
                 {content}
               </Typography>
               {post.image ? (
                 <CardMedia
+                  sx={{
+                    borderRadius: "20px",
+                    margin: "0 auto",
+                    maxWidth: "654px",
+                    maxHeight: "600px",
+                  }}
                   component="img"
-                  height="194"
+                  height="600"
+                  width="654"
                   image={post.image}
                   alt="image"
                 />
@@ -195,13 +222,11 @@ export default function ContentCard() {
                   marginRight: "15px",
                   marginTop: "15px",
                   height: "40px",
-                }}
-              >
+                }}>
                 <IconButton
                   sx={{ flex: "1", borderRadius: "5px" }}
                   aria-label="Like"
-                  className="card-buttons"
-                >
+                  className="card-buttons">
                   <ThumbUpAltOutlinedIcon
                     sx={{
                       "&:hover": { backgroundColor: "transparent" },
@@ -212,16 +237,14 @@ export default function ContentCard() {
                 <IconButton
                   sx={{ flex: "1", borderRadius: "5px" }}
                   aria-label="Comments"
-                  className="card-buttons"
-                >
+                  className="card-buttons">
                   <ChatBubbleOutlineIcon />
                   <Typography sx={{ marginLeft: "5px" }}>Comment</Typography>
                 </IconButton>
                 <IconButton
                   sx={{ flex: "1", borderRadius: "5px" }}
                   aria-label="Share"
-                  className="card-buttons"
-                >
+                  className="card-buttons">
                   <ShortcutIcon />
                   <Typography sx={{ marginLeft: "5px" }}>Share</Typography>
                 </IconButton>
@@ -248,24 +271,50 @@ export default function ContentCard() {
         );
       })}
       <Modal
-        sx={{ overflowY: "scroll" }}
+        sx={{
+          borderRadius: "10px",
+        }}
         open={open}
         onClose={handleClose}
         aria-labelledby="modal-modal-title"
-        aria-describedby="modal-modal-description"
-      >
+        aria-describedby="modal-modal-description">
         <Box
           sx={{
             ...style,
-            marginRight: open ? "32px" : "0", // Adjust the margin to match your scrollbar width
-          }}
-        >
-          <Typography id="modal-modal-title" variant="h6" component="h2">
-            Text in a modal
-          </Typography>
-          <Typography id="modal-modal-description" sx={{ mt: 2 }}>
-            Duis mollis, est non commodo luctus, nisi erat porttitor ligula.
-          </Typography>
+            borderRadius: "5px",
+
+            justifyContent: "center",
+            alignItems: "center",
+            display: "flex",
+          }}>
+          {/* had to add a condition if the post its from the user if he is sure he want to delete the post */}
+          {/* in case the post is from other user, hide post only */}
+          <Stack>
+            <Typography
+              sx={{ marginBottom: "10px" }}
+              id="delete confirmation"
+              variant="h6"
+              component="h2"
+              marginRight="15px">
+              Do you want to delete this post?
+            </Typography>
+            <Stack
+              direction="row"
+              spacing={5}
+              display="flex"
+              justifyContent="center">
+              <IconButton
+                sx={{ borderRadius: "2px" }}
+                onClick={() => handleDelete(postIdToDelete)}>
+                <DeleteForeverIcon />
+                <Typography marginLeft="5px">Delete</Typography>
+              </IconButton>
+              <IconButton sx={{ borderRadius: "2px" }}>
+                <UndoIcon />
+                <Typography marginLeft="5px">Cancel</Typography>
+              </IconButton>
+            </Stack>
+          </Stack>
         </Box>
       </Modal>
     </>
