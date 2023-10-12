@@ -29,6 +29,7 @@ import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import { Link } from "react-router-dom";
 import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
 import UndoIcon from "@mui/icons-material/Undo";
+import CreatePost from "./CreatePost";
 
 const style = {
   position: "absolute",
@@ -116,6 +117,13 @@ export default function ContentCard() {
 
   return Array.isArray(posts) && posts.length > 0 ? (
     <>
+      <Container
+        sx={{
+          display: "flex",
+          justifyContent: "center",
+          marginBottom: "15px",
+        }}></Container>
+
       {posts?.map((post) => {
         const { id, user, content } = post;
         const { name: userFullName, avatar_url: avatarUrl } = user;
@@ -146,17 +154,8 @@ export default function ContentCard() {
                         width: "40px",
                         objectFit: "cover",
                         marginRight: "-5px",
-                      }}>
-                      <img
-                        alt="avatar"
-                        src={avatarUrl}
-                        style={{
-                          height: "40px",
-                          width: "40px",
-                          objectFit: "cover",
-                        }}
-                      />
-                    </Avatar>
+                      }}
+                      src={avatarUrl}></Avatar>
                   </Link>
                 }
                 action={
@@ -222,7 +221,7 @@ export default function ContentCard() {
                   height: "40px",
                 }}>
                 <IconButton
-                  sx={{ flex: "1", borderRadius: "5px" }}
+                  sx={{ flex: "1", borderRadius: "2px" }}
                   aria-label="Like"
                   className="card-buttons">
                   <ThumbUpAltOutlinedIcon
@@ -233,14 +232,14 @@ export default function ContentCard() {
                   <Typography sx={{ marginLeft: "5px" }}>Like</Typography>
                 </IconButton>
                 <IconButton
-                  sx={{ flex: "1", borderRadius: "5px" }}
+                  sx={{ flex: "1", borderRadius: "2px" }}
                   aria-label="Comments"
                   className="card-buttons">
                   <ChatBubbleOutlineIcon />
                   <Typography sx={{ marginLeft: "5px" }}>Comment</Typography>
                 </IconButton>
                 <IconButton
-                  sx={{ flex: "1", borderRadius: "5px" }}
+                  sx={{ flex: "1", borderRadius: "15px" }}
                   aria-label="Share"
                   className="card-buttons">
                   <ShortcutIcon />
@@ -268,6 +267,7 @@ export default function ContentCard() {
           </Container>
         );
       })}
+      {/* maybe try to use a Basic dialog from material... */}
       <Modal
         sx={{
           borderRadius: "10px",
@@ -280,7 +280,6 @@ export default function ContentCard() {
           sx={{
             ...style,
             borderRadius: "5px",
-
             justifyContent: "center",
             alignItems: "center",
             display: "flex",

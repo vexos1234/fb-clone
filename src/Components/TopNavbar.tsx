@@ -52,8 +52,6 @@ export default function TopNavbar({ session }: TopNavbarProps) {
     navigate("/");
   };
 
-  console.log(session);
-
   if (session)
     return (
       <div className="navbar-container">
@@ -115,6 +113,7 @@ export default function TopNavbar({ session }: TopNavbarProps) {
                     width: "111px",
                     height: "48px",
                     borderRadius: "10px",
+                    transition: "background-color 0.1s, color 0.1s",
                     "&:hover": {
                       backgroundColor: "#F2F2F2",
                     },
@@ -125,6 +124,7 @@ export default function TopNavbar({ session }: TopNavbarProps) {
                       color: "#606266",
                       width: `${iconSize}px`,
                       height: `${iconSize}px`,
+                      transition: "background-color 0.1s, color 0.1s",
                     }}
                   />
                 </Button>
@@ -136,6 +136,7 @@ export default function TopNavbar({ session }: TopNavbarProps) {
                     width: "111px",
                     height: "48px",
                     borderRadius: "10px",
+                    transition: "background-color 0.1s, color 0.1s",
                     "&:hover": {
                       backgroundColor: "#F2F2F2",
                     },
@@ -158,6 +159,7 @@ export default function TopNavbar({ session }: TopNavbarProps) {
                     width: "111px",
                     height: "48px",
                     borderRadius: "10px",
+                    transition: "background-color 0.1s, color 0.1s",
                     "&:hover": {
                       backgroundColor: "#F2F2F2",
                     },
@@ -168,6 +170,7 @@ export default function TopNavbar({ session }: TopNavbarProps) {
                       color: "#606266",
                       width: `${iconSize}px`,
                       height: `${iconSize}px`,
+                      transition: "background-color 0.1s, color 0.1s",
                     }}
                   />
                 </Button>
@@ -180,6 +183,7 @@ export default function TopNavbar({ session }: TopNavbarProps) {
                     width: "111px",
                     height: "48px",
                     borderRadius: "10px",
+                    transition: "background-color 0.1s, color 0.1s",
                     "&:hover": {
                       backgroundColor: "#F2F2F2",
                     },
@@ -190,6 +194,7 @@ export default function TopNavbar({ session }: TopNavbarProps) {
                       color: "#606266",
                       width: `${iconSize}px`,
                       height: `${iconSize}px`,
+                      transition: "background-color 0.1s, color 0.1s",
                     }}
                   />
                 </Button>
@@ -202,6 +207,7 @@ export default function TopNavbar({ session }: TopNavbarProps) {
                     width: "111px",
                     height: "48px",
                     borderRadius: "10px",
+                    transition: "background-color 0.1s, color 0.1s",
                     "&:hover": {
                       backgroundColor: "#F2F2F2",
                     },
@@ -232,6 +238,7 @@ export default function TopNavbar({ session }: TopNavbarProps) {
                   display: "flex",
                   justifyContent: "center",
                   alignItems: "center",
+                  transition: "background-color 0.1s, color 0.1s",
                   "&:hover": {
                     backgroundColor: "#ccc",
                   },
@@ -248,6 +255,7 @@ export default function TopNavbar({ session }: TopNavbarProps) {
                   display: "flex",
                   justifyContent: "center",
                   alignItems: "center",
+                  transition: "background-color 0.1s, color 0.1s",
                   "&:hover": {
                     backgroundColor: "#ccc",
                   },
@@ -263,6 +271,7 @@ export default function TopNavbar({ session }: TopNavbarProps) {
                   display: "flex",
                   justifyContent: "center",
                   alignItems: "center",
+                  transition: "background-color 0.1s, color 0.1s",
                   "&:hover": {
                     backgroundColor: "#ccc",
                   },

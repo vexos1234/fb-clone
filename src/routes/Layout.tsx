@@ -6,6 +6,7 @@ import { Box, Container, Grid } from "@mui/material";
 import ContentCard from "../Components/ContentCard";
 import "./styles.css";
 import LeftNavbar from "../Components/LeftNavbar";
+import CreatePost from "../Components/CreatePost";
 
 function Layout(props: { onLogOut: () => void }) {
   const [session, SetSession] = useState<AuthSession | null>();
@@ -21,12 +22,14 @@ function Layout(props: { onLogOut: () => void }) {
     return (
       <div className="layout-container">
         <TopNavbar session={session} />
+        {/* LEFT */}
         <Grid container sx={{ marginTop: "75px" }}>
           <Grid display="flex" justifyContent="left" item xs={2} sx={{}}>
             <Box>
               <LeftNavbar session={session} />
             </Box>
           </Grid>
+          {/* CENTER */}
           <Grid
             display="flex"
             justifyContent="center"
@@ -34,8 +37,10 @@ function Layout(props: { onLogOut: () => void }) {
             item
             xs={8}
             sx={{}}>
+            <CreatePost session={session} />
             <ContentCard />
           </Grid>
+          {/* RIGTH */}
           <Grid item xs={2}>
             <Box>
               <h1>right content</h1>
