@@ -34,6 +34,12 @@ interface TopNavbarProps {
   session: AuthSession | null;
 }
 
+export interface SimpleDialogProps {
+  open: boolean;
+  selectedValue: string;
+  onClose: (value: string) => void;
+}
+
 export default function TopNavbar({ session }: TopNavbarProps) {
   // const [session, SetSession] = useState<AuthSession | null>();
   const navigate = useNavigate();
