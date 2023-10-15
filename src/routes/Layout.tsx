@@ -36,7 +36,8 @@ function Layout(props: { onLogOut: () => void }) {
             flexDirection="column"
             item
             xs={8}
-            sx={{}}>
+            sx={{}}
+          >
             <CreatePost session={session} />
             <ContentCard />
           </Grid>
