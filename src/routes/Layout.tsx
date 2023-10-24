@@ -2,11 +2,9 @@ import { useEffect, useState } from "react";
 import TopNavbar from "../Components/TopNavbar";
 import { AuthSession } from "@supabase/supabase-js";
 import { supabase } from "../supabaseClient";
-import { Box, Container, Grid } from "@mui/material";
-import ContentCard from "../Components/ContentCard";
 import "./styles.css";
-import LeftNavbar from "../Components/LeftNavbar";
-import CreatePost from "../Components/CreatePost";
+import { Toaster } from "react-hot-toast";
+import { Outlet } from "react-router-dom";
 
 function Layout(props: { onLogOut: () => void }) {
   const [session, SetSession] = useState<AuthSession | null>();
@@ -22,32 +20,9 @@ function Layout(props: { onLogOut: () => void }) {
     return (
       <div className="layout-container">
         <TopNavbar session={session} />
-        {/* LEFT */}
-        <Grid container sx={{ marginTop: "75px" }}>
-          <Grid display="flex" justifyContent="left" item xs={2} sx={{}}>
-            <Box>
-              <LeftNavbar session={session} />
-            </Box>
-          </Grid>
-          {/* CENTER */}
-          <Grid
-            display="flex"
-            justifyContent="center"
-            flexDirection="column"
-            item
-            xs={8}
-            sx={{}}
-          >
-            <CreatePost session={session} />
-            <ContentCard />
-          </Grid>
-          {/* RIGTH */}
-          <Grid item xs={2}>
-            <Box>
-              <h1>right content</h1>
-            </Box>
-          </Grid>
-        </Grid>
+        <Toaster position="top-center" />
+
+        <Outlet />
       </div>
     );
 }

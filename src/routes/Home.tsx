@@ -1,9 +1,13 @@
 import { useEffect, useState } from "react";
 import { supabase } from "../supabaseClient";
-import { Post } from "../types/posts";
+import { Box, Grid } from "@mui/material";
+import LeftNavbar from "../Components/LeftNavbar";
+import CreatePost from "../Components/CreatePost";
+import ContentCard from "../Components/ContentCard";
+import { AuthSession } from "@supabase/supabase-js";
 
-function Home() {
-  const [posts, setPosts] = useState<Post[] | null>(null);
+function Home(props: { onLogOut: () => void }) {
+  const [session, SetSession] = useState<AuthSession | null>();
 
   // const handleSignOut = async () => {
   //   await supabase.auth.signOut();
@@ -11,17 +15,12 @@ function Home() {
   // };
 
   useEffect(() => {
-    async function getPosts() {
-      const { data } = await supabase
-        .from("posts")
-        .select("*, user:users(name, avatar_url, user_name)")
-        .order("created_at", { ascending: false });
-      setPosts(data);
-    }
-    getPosts();
+    supabase.auth.getSession().then(({ data: { session } }) => {
+      console.log("session on layout:", session);
+      SetSession(session);
+    });
   }, []);
 
-  console.log(posts);
   // useEffect(() => {
   //   supabase.auth.getSession().then(({ data: { session } }) => {
   //     console.log("session on root:", session);
@@ -33,11 +32,37 @@ function Home() {
   //   });
   // }, []);
 
-  return (
-    <div>
-      <h1>home</h1>
-    </div>
-  );
+  if (session !== undefined)
+    return (
+      <div>
+        {/* LEFT */}
+        <Grid container sx={{ marginTop: "75px" }}>
+          <Grid display="flex" justifyContent="left" item xs={2} sx={{}}>
+            <Box>
+              <LeftNavbar session={session} />
+            </Box>
+          </Grid>
+          {/* CENTER */}
+          <Grid
+            display="flex"
+            justifyContent="center"
+            flexDirection="column"
+            item
+            xs={8}
+            sx={{}}
+          >
+            <CreatePost session={session} width={"648px"} />
+            <ContentCard />
+          </Grid>
+          {/* RIGTH */}
+          <Grid item xs={2}>
+            <Box>
+              <h1>right content</h1>
+            </Box>
+          </Grid>
+        </Grid>
+      </div>
+    );
 }
 
 export default Home;

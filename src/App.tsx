@@ -11,6 +11,7 @@ import { useEffect, useState } from "react";
 import { supabase } from "./supabaseClient";
 import { AuthSession } from "@supabase/supabase-js";
 import Layout from "./routes/Layout";
+import Profile from "./Components/Profile";
 
 const publicPages = createBrowserRouter([
   {
@@ -36,8 +37,11 @@ export default function App() {
         <BrowserRouter>
           <Routes>
             <Route element={<Layout onLogOut={() => setSession(null)} />}>
-              <Route index element={<Home />} />
-              <Route path="profile" element={<h1>profile</h1>} />
+              <Route
+                index
+                element={<Home onLogOut={() => setSession(null)} />}
+              />
+              <Route path="profile" element={<Profile session={session} />} />
             </Route>
           </Routes>
         </BrowserRouter>

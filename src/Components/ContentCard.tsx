@@ -29,7 +29,7 @@ import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import { Link } from "react-router-dom";
 import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
 import UndoIcon from "@mui/icons-material/Undo";
-import CreatePost from "./CreatePost";
+import { toast } from "react-hot-toast";
 
 const style = {
   position: "absolute",
@@ -106,9 +106,8 @@ export default function ContentCard() {
       if (error) {
         throw error;
       }
-
+      toast.success("Post deleted successfully");
       console.log(`Post with ID ${postId} deleted successfully`);
-      window.location.reload();
     } catch (error) {
       console.error("Error deleting post:", error.message);
     }

@@ -6,6 +6,7 @@ import {
   IconButton,
   Stack,
   TextField,
+  Tooltip,
 } from "@mui/material";
 import "./styles.css";
 import HomeIcon from "@mui/icons-material/Home";
@@ -23,7 +24,7 @@ const ovalInputStyle = {
   width: "240px",
   height: "20px",
 };
-import { Link, Outlet, useNavigate } from "react-router-dom";
+import { Link, NavLink, Outlet, useNavigate } from "react-router-dom";
 import { supabase } from "../supabaseClient";
 import FacebookIcon from "../icons/FacebookIcon";
 import { useEffect, useState } from "react";
@@ -84,7 +85,7 @@ export default function TopNavbar({ session }: TopNavbarProps) {
               direction="row"
               sx={{ marginLeft: "5px", alignItems: "center" }}
             >
-              <Link to="/">
+              <Link to="/profile">
                 <IconButton disableRipple>
                   <FacebookIcon />
                 </IconButton>
@@ -116,125 +117,132 @@ export default function TopNavbar({ session }: TopNavbarProps) {
             {/* center icons */}
             <Stack direction="row" spacing={1} sx={{ alignItems: "center" }}>
               <Link to="/">
-                <Button
-                  sx={{
-                    backgroundColor: "#fff",
-                    width: "111px",
-                    height: "48px",
-                    borderRadius: "10px",
-                    transition: "background-color 0.1s, color 0.1s",
-                    "&:hover": {
-                      backgroundColor: "#F2F2F2",
-                    },
-                  }}
-                >
-                  <HomeIcon
-                    className="clickable-icon"
+                <Tooltip title={"Home"}>
+                  <Button
                     sx={{
-                      color: "#606266",
-                      width: `${iconSize}px`,
-                      height: `${iconSize}px`,
+                      backgroundColor: "#fff",
+                      width: "111px",
+                      height: "48px",
+                      borderRadius: "10px",
                       transition: "background-color 0.1s, color 0.1s",
+                      "&:hover": {
+                        backgroundColor: "#F2F2F2",
+                      },
                     }}
-                  />
-                </Button>
+                  >
+                    <HomeIcon
+                      className="clickable-icon"
+                      sx={{
+                        color: "#606266",
+                        width: `${iconSize}px`,
+                        height: `${iconSize}px`,
+                        transition: "background-color 0.1s, color 0.1s",
+                      }}
+                    />
+                  </Button>
+                </Tooltip>
               </Link>
               <Link to="/video">
-                <Button
-                  sx={{
-                    backgroundColor: "#fff",
-                    width: "111px",
-                    height: "48px",
-                    borderRadius: "10px",
-                    transition: "background-color 0.1s, color 0.1s",
-                    "&:hover": {
-                      backgroundColor: "#F2F2F2",
-                    },
-                  }}
-                >
-                  <OndemandVideoIcon
-                    className="clickable-icon"
+                <Tooltip title={"Video"}>
+                  <Button
                     sx={{
-                      color: "#606266",
-                      width: `${iconSize}px`,
-                      height: `${iconSize}px`,
+                      backgroundColor: "#fff",
+                      width: "111px",
+                      height: "48px",
+                      borderRadius: "10px",
+                      transition: "background-color 0.1s, color 0.1s",
+                      "&:hover": {
+                        backgroundColor: "#F2F2F2",
+                      },
                     }}
-                  />
-                </Button>
+                  >
+                    <OndemandVideoIcon
+                      className="clickable-icon"
+                      sx={{
+                        color: "#606266",
+                        width: `${iconSize}px`,
+                        height: `${iconSize}px`,
+                      }}
+                    />
+                  </Button>
+                </Tooltip>
               </Link>
-
               <Link to="/market">
-                <Button
-                  sx={{
-                    backgroundColor: "#fff",
-                    width: "111px",
-                    height: "48px",
-                    borderRadius: "10px",
-                    transition: "background-color 0.1s, color 0.1s",
-                    "&:hover": {
-                      backgroundColor: "#F2F2F2",
-                    },
-                  }}
-                >
-                  <StorefrontIcon
-                    className="clickable-icon"
+                <Tooltip title={"Marketplace"}>
+                  <Button
                     sx={{
-                      color: "#606266",
-                      width: `${iconSize}px`,
-                      height: `${iconSize}px`,
+                      backgroundColor: "#fff",
+                      width: "111px",
+                      height: "48px",
+                      borderRadius: "10px",
                       transition: "background-color 0.1s, color 0.1s",
+                      "&:hover": {
+                        backgroundColor: "#F2F2F2",
+                      },
                     }}
-                  />
-                </Button>
+                  >
+                    <StorefrontIcon
+                      className="clickable-icon"
+                      sx={{
+                        color: "#606266",
+                        width: `${iconSize}px`,
+                        height: `${iconSize}px`,
+                        transition: "background-color 0.1s, color 0.1s",
+                      }}
+                    />
+                  </Button>
+                </Tooltip>
               </Link>
-
               <Link to="/groups">
-                <Button
-                  sx={{
-                    backgroundColor: "#fff",
-                    width: "111px",
-                    height: "48px",
-                    borderRadius: "10px",
-                    transition: "background-color 0.1s, color 0.1s",
-                    "&:hover": {
-                      backgroundColor: "#F2F2F2",
-                    },
-                  }}
-                >
-                  <GroupIcon
-                    className="clickable-icon"
+                <Tooltip title={"Groups"}>
+                  <Button
                     sx={{
-                      color: "#606266",
-                      width: `${iconSize}px`,
-                      height: `${iconSize}px`,
+                      backgroundColor: "#fff",
+                      width: "111px",
+                      height: "48px",
+                      borderRadius: "10px",
                       transition: "background-color 0.1s, color 0.1s",
+                      "&:hover": {
+                        backgroundColor: "#F2F2F2",
+                      },
                     }}
-                  />
-                </Button>
+                  >
+                    <GroupIcon
+                      className="clickable-icon"
+                      sx={{
+                        color: "#606266",
+                        width: `${iconSize}px`,
+                        height: `${iconSize}px`,
+                        transition: "background-color 0.1s, color 0.1s",
+                      }}
+                    />
+                  </Button>
+                </Tooltip>
               </Link>
-
               <Link to="/games">
-                <Button
-                  sx={{
-                    backgroundColor: "#fff",
-                    width: "111px",
-                    height: "48px",
-                    borderRadius: "10px",
-                    transition: "background-color 0.1s, color 0.1s",
-                    "&:hover": {
-                      backgroundColor: "#F2F2F2",
-                    },
-                  }}
-                >
-                  <VideogameAssetIcon
-                    className="clickable-icon"
+                <Tooltip title={"Games"}>
+                  <Button
                     sx={{
-                      color: "#606266",
-                      width: `${iconSize}px`,
-                      height: `${iconSize}px`,
+                      backgroundColor: "#fff",
+                      width: "111px",
+                      height: "48px",
+                      borderRadius: "10px",
+                      transition: "background-color 0.1s, color 0.1s",
+                      "&:hover": {
+                        backgroundColor: "#F2F2F2",
+                      },
                     }}
-                  />
-                </Button>
+                  >
+                    <VideogameAssetIcon
+                      className="clickable-icon"
+                      sx={{
+                        color: "#606266",
+                        width: `${iconSize}px`,
+                        height: `${iconSize}px`,
+                      }}
+                    />
+                  </Button>
+                </Tooltip>
               </Link>
             </Stack>
           </Grid>
@@ -244,65 +252,73 @@ export default function TopNavbar({ session }: TopNavbarProps) {
               spacing={1}
               sx={{ marginRight: "15px", alignItems: "center" }}
             >
-              <IconButton
-                sx={{
-                  height: "40px ",
-                  width: "40px ",
-                  backgroundColor: "#F0F2F5",
-                  borderRadius: "50% ",
-                  display: "flex",
-                  justifyContent: "center",
-                  alignItems: "center",
-                  transition: "background-color 0.1s, color 0.1s",
-                  "&:hover": {
-                    backgroundColor: "#ccc",
-                  },
-                }}
-              >
-                <AppsIcon sx={{ color: "#000000" }} />
-              </IconButton>
+              <Tooltip title={"Apps"}>
+                <IconButton
+                  sx={{
+                    height: "40px ",
+                    width: "40px ",
+                    backgroundColor: "#F0F2F5",
+                    borderRadius: "50% ",
+                    display: "flex",
+                    justifyContent: "center",
+                    alignItems: "center",
+                    transition: "background-color 0.1s, color 0.1s",
+                    "&:hover": {
+                      backgroundColor: "#ccc",
+                    },
+                  }}
+                >
+                  <AppsIcon sx={{ color: "#000000" }} />
+                </IconButton>
+              </Tooltip>
+              <Tooltip title={"Messenger"}>
+                <IconButton
+                  sx={{
+                    height: "40px ",
+                    width: "40px ",
+                    backgroundColor: "#F0F2F5",
+                    borderRadius: "50% ",
+                    display: "flex",
+                    justifyContent: "center",
+                    alignItems: "center",
+                    transition: "background-color 0.1s, color 0.1s",
+                    "&:hover": {
+                      backgroundColor: "#ccc",
+                    },
+                  }}
+                >
+                  <MarkChatUnreadIcon sx={{ color: "#000000" }} />
+                </IconButton>
+              </Tooltip>
+              <Tooltip title={"Notifications"}>
+                <IconButton
+                  sx={{
+                    height: "40px ",
+                    width: "40px ",
+                    backgroundColor: "#F0F2F5",
+                    borderRadius: "50% ",
+                    display: "flex",
+                    justifyContent: "center",
+                    alignItems: "center",
+                    transition: "background-color 0.1s, color 0.1s",
+                    "&:hover": {
+                      backgroundColor: "#ccc",
+                    },
+                  }}
+                >
+                  <NotificationsIcon sx={{ color: "#000000" }} />
+                </IconButton>
+              </Tooltip>
 
-              <IconButton
-                sx={{
-                  height: "40px ",
-                  width: "40px ",
-                  backgroundColor: "#F0F2F5",
-                  borderRadius: "50% ",
-                  display: "flex",
-                  justifyContent: "center",
-                  alignItems: "center",
-                  transition: "background-color 0.1s, color 0.1s",
-                  "&:hover": {
-                    backgroundColor: "#ccc",
-                  },
-                }}
-              >
-                <MarkChatUnreadIcon sx={{ color: "#000000" }} />
-              </IconButton>
-              <IconButton
-                sx={{
-                  height: "40px ",
-                  width: "40px ",
-                  backgroundColor: "#F0F2F5",
-                  borderRadius: "50% ",
-                  display: "flex",
-                  justifyContent: "center",
-                  alignItems: "center",
-                  transition: "background-color 0.1s, color 0.1s",
-                  "&:hover": {
-                    backgroundColor: "#ccc",
-                  },
-                }}
-              >
-                <NotificationsIcon sx={{ color: "#000000" }} />
-              </IconButton>
               <Link to="/profile">
-                <Avatar
-                  className="clickable-icon"
-                  src={session.user.user_metadata.avatar_url}
-                  alt="Scales of Justice Brand Image"
-                  sx={{ width: 40, height: 40 }}
-                />
+                <Tooltip title={"account"}>
+                  <Avatar
+                    className="clickable-icon"
+                    src={session.user.user_metadata.avatar_url}
+                    alt="Scales of Justice Brand Image"
+                    sx={{ width: 40, height: 40 }}
+                  />
+                </Tooltip>
               </Link>
             </Stack>
           </Grid>

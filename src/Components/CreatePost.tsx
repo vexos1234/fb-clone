@@ -9,6 +9,7 @@ import {
   Stack,
   TextField,
   TextareaAutosize,
+  Tooltip,
   Typography,
 } from "@mui/material";
 import { AuthSession } from "@supabase/supabase-js";
@@ -20,9 +21,12 @@ import TagFacesIcon from "@mui/icons-material/TagFaces";
 import { useState } from "react";
 import CloseIcon from "@mui/icons-material/Close";
 import { supabase } from "../supabaseClient";
+import { toast } from "react-hot-toast";
+import PhotoLibraryIcon from "@mui/icons-material/PhotoLibrary";
 
 interface TopNavbarProps {
   session: AuthSession | null;
+  width: string;
 }
 
 const style = {
@@ -38,15 +42,43 @@ const style = {
   maxHeight: "550px",
 };
 
-function CreatePost({ session }: TopNavbarProps) {
+function CreatePost({ session, width }: TopNavbarProps) {
   const [open, setOpen] = useState(false);
   const [postContent, setPostContent] = useState("");
+  const [isButtonDisabled, setButtonDisabled] = useState(true);
+
+  const style = {
+    position: "absolute",
+    top: "50%",
+    left: "50%",
+    transform: "translate(-50%, -50%)",
+    width: "30vw",
+    bgcolor: "background.paper",
+    boxShadow: 12,
+    borderRadius: "10px",
+    minWidth: "500px",
+    maxHeight: "550px",
+  };
+
+  const handleTextFieldChange = (e) => {
+    const content = e.target.value;
+    setPostContent(content);
+    setButtonDisabled(content === ""); // Update button's disabled state
+  };
 
   const handleOpen = () => {
     setOpen(true);
   };
   const handleClose = () => {
     setOpen(false);
+  };
+
+  const buttonStyles = {
+    bgcolor: isButtonDisabled ? "#ccc" : "#0861F2",
+    color: isButtonDisabled ? "#999" : "#fff",
+    width: "100%",
+    textTransform: "none",
+    cursor: isButtonDisabled ? "not-allowed" : "pointer",
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -62,8 +94,11 @@ function CreatePost({ session }: TopNavbarProps) {
 
       if (error) {
         throw error;
+        toast.error(error);
       }
       setPostContent("");
+      toast.success("Successfully posted");
+      setOpen(false);
     } catch (error) {
       console.error("Error creating post:", error?.message);
     }
@@ -85,7 +120,8 @@ function CreatePost({ session }: TopNavbarProps) {
             sx={{
               background: "#fff",
               color: "#000000",
-              width: "648px",
+              // width: "648px",
+              width: { width },
               maxWidth: "680px",
               borderRadius: "10px",
               padding: "16px",
@@ -133,7 +169,10 @@ function CreatePost({ session }: TopNavbarProps) {
                 />
                 <Typography sx={{ marginLeft: "5px" }}>Live video</Typography>
               </IconButton>
-              <IconButton sx={{ flex: "1", borderRadius: "10px" }}>
+              <IconButton
+                onClick={handleOpen}
+                sx={{ flex: "1", borderRadius: "10px" }}
+              >
                 <CropOriginalIcon
                   sx={{
                     color: "#44BB61",
@@ -214,7 +253,8 @@ function CreatePost({ session }: TopNavbarProps) {
               <form onSubmit={handleSubmit}>
                 <TextField
                   multiline
-                  onChange={(e) => setPostContent(e.target.value)}
+                  // onChange={(e) => setPostContent(e.target.value)}
+                  onChange={handleTextFieldChange}
                   value={postContent}
                   focused={true}
                   inputProps={{ maxLength: 3000 }}
@@ -231,17 +271,42 @@ function CreatePost({ session }: TopNavbarProps) {
                   }}
                 ></TextField>
                 <Box padding={2}>
-                  <Button
-                    type="submit"
+                  <Box
                     sx={{
-                      bgcolor: "#0861F2",
-                      color: "#fff",
-                      width: "100%",
-                      textTransform: "none",
-                      "&:hover": {
-                        bgcolor: "#0866FF",
-                      },
+                      border: "1px solid #E4E6EB",
+                      height: "7vh",
+                      maxHeight: "65px",
+                      borderRadius: "10px",
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "space-between",
                     }}
+                  >
+                    <Typography fontWeight="bold" marginLeft="10px">
+                      Add to your post
+                    </Typography>
+                    <Box display="flex" justifyContent="right">
+                      <Tooltip title={"Photo/video"} placement="top">
+                        <IconButton
+                          sx={{ color: "#41B35D", marginRight: "5px" }}
+                        >
+                          <PhotoLibraryIcon />
+                        </IconButton>
+                      </Tooltip>
+                      <Tooltip title={"Photo/video"} placement="top">
+                        <IconButton sx={{ color: "#F2B828" }}>
+                          <TagFacesIcon />
+                        </IconButton>
+                      </Tooltip>
+                    </Box>
+                  </Box>
+                </Box>
+
+                <Box padding={2}>
+                  <Button
+                    disabled={isButtonDisabled}
+                    type="submit"
+                    sx={buttonStyles}
                   >
                     Post
                   </Button>
