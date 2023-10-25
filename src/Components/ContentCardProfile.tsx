@@ -1,5 +1,3 @@
-// search memo or find another way to only reredener the card component
-
 import "./styles.css";
 import Card from "@mui/material/Card";
 import CardHeader from "@mui/material/CardHeader";
@@ -30,6 +28,7 @@ import { Link } from "react-router-dom";
 import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
 import UndoIcon from "@mui/icons-material/Undo";
 import { toast } from "react-hot-toast";
+import { AuthSession } from "@supabase/supabase-js";
 
 const style = {
   position: "absolute",
@@ -71,9 +70,13 @@ function formatDate(inputDate) {
 
 interface ContentCardProps {
   width: string;
+  session: AuthSession | null;
 }
 
-export default function ContentCard({ width = "680px" }: ContentCardProps) {
+export default function ContentCardProfile({
+  session,
+  width = "680px",
+}: ContentCardProps) {
   const [open, setOpen] = useState(false);
   const handleClose = () => setOpen(false);
   const [postIdToDelete, setPostIdToDelete] = useState<number | null>(null);
@@ -87,20 +90,33 @@ export default function ContentCard({ width = "680px" }: ContentCardProps) {
   };
 
   useEffect(() => {
-    async function getPosts() {
+    async function getPosts(userId: string) {
       try {
-        const { data } = await supabase
-          .from("posts")
-          .select("*, user:users(name, avatar_url, user_name)")
-          .order("created_at", { ascending: false });
+        if (userId) {
+          const { data, error } = await supabase
+            .from("posts")
+            .select("*, user:users(name, avatar_url, user_name)")
+            .eq("user_id", userId)
+            .order("created_at", { ascending: false });
 
-        setPosts(data);
+          if (error) {
+            console.error("Supabase error:", error);
+          } else {
+            setPosts(data);
+          }
+        } else {
+          console.error("User ID is undefined or missing.");
+        }
       } catch (error) {
         console.error("Error fetching data:", error);
       }
     }
 
-    getPosts();
+    if (session?.user?.id) {
+      getPosts(session.user.id);
+    } else {
+      console.error("User ID is undefined or missing.");
+    }
   }, []);
 
   const handleDelete = async (postId: number | null) => {

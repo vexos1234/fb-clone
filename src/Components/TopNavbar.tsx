@@ -44,6 +44,9 @@ export default function TopNavbar({ session }: TopNavbarProps) {
   // const [session, SetSession] = useState<AuthSession | null>();
   const navigate = useNavigate();
   const iconSize = 28;
+  const active = {
+    borderBottom: "4px solid #0866FF",
+  };
 
   // useEffect(() => {
   //   supabase.auth.getSession().then(({ data: { session } }) => {
@@ -85,7 +88,7 @@ export default function TopNavbar({ session }: TopNavbarProps) {
               direction="row"
               sx={{ marginLeft: "5px", alignItems: "center" }}
             >
-              <Link to="/profile">
+              <Link to="/">
                 <IconButton disableRipple>
                   <FacebookIcon />
                 </IconButton>
@@ -116,7 +119,12 @@ export default function TopNavbar({ session }: TopNavbarProps) {
           >
             {/* center icons */}
             <Stack direction="row" spacing={1} sx={{ alignItems: "center" }}>
-              <Link to="/">
+              <NavLink
+                to="/"
+                style={({ isActive }) => ({
+                  borderBottom: isActive ? "3.5px solid #007BFF" : "none", // Conditional border style
+                })}
+              >
                 <Tooltip title={"Home"}>
                   <Button
                     sx={{
@@ -131,7 +139,6 @@ export default function TopNavbar({ session }: TopNavbarProps) {
                     }}
                   >
                     <HomeIcon
-                      className="clickable-icon"
                       sx={{
                         color: "#606266",
                         width: `${iconSize}px`,
@@ -141,7 +148,7 @@ export default function TopNavbar({ session }: TopNavbarProps) {
                     />
                   </Button>
                 </Tooltip>
-              </Link>
+              </NavLink>
               <Link to="/video">
                 <Tooltip title={"Video"}>
                   <Button

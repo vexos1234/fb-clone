@@ -1,16 +1,10 @@
 // "https://images.unsplash.com/photo-1682687982167-d7fb3ed8541d?auto=format&fit=crop&q=80&ixlib=rb-4.0.3&ixid=M3wxMjA3fDF8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&w=2071"
 // session.user.user_metadata.full_name
 // session.user.user_metadata.avatar_url
-import {
-  Avatar,
-  Box,
-  Button,
-  Container,
-  Stack,
-  Typography,
-} from "@mui/material";
+import { Avatar, Box, Button, Stack, Typography } from "@mui/material";
 import { AuthSession } from "@supabase/supabase-js";
 import CreatePost from "./CreatePost";
+import ContentCardProfile from "./ContentCardProfile";
 
 interface TopNavbarProps {
   session: AuthSession | null;
@@ -32,6 +26,7 @@ export default function Profile({ session }: TopNavbarProps) {
             display: "flex",
             justifyContent: "center",
             position: "relative",
+            boxShadow: "1",
           }}
         >
           <Box
@@ -118,8 +113,7 @@ export default function Profile({ session }: TopNavbarProps) {
             display: "flex",
             width: "1031px",
             margin: "0 auto",
-            border: "1px solid #fff",
-            padding: "20px",
+            padding: "15px",
           }}
         >
           {/* content */}
@@ -136,6 +130,7 @@ export default function Profile({ session }: TopNavbarProps) {
                   height: "300px",
                   marginBottom: "15px",
                   boxShadow: "2",
+                  padding: "15px",
                 }}
               >
                 <Typography>Intro</Typography>
@@ -149,6 +144,7 @@ export default function Profile({ session }: TopNavbarProps) {
                   marginLeft: "-3px",
                   minHeight: "400px",
                   boxShadow: "2",
+                  padding: "15px",
                 }}
               >
                 <Typography>Intro</Typography>
@@ -164,6 +160,7 @@ export default function Profile({ session }: TopNavbarProps) {
               }}
             >
               <CreatePost session={session} width={"37.5vw"} />
+              <ContentCardProfile session={session} width={"39.5vw"} />
             </Box>
           </Stack>
         </Box>
