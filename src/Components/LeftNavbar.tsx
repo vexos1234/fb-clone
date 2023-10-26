@@ -43,17 +43,18 @@ function LeftNavbar({ session }: TopNavbarProps) {
     <Box sx={{ position: "fixed" }}>
       <Stack>
         {session ? (
-          <Button sx={style}>
-            <Link to="/profile">
+          <Link to="/profile">
+            <IconButton sx={style}>
               <Avatar
                 className="clickable-icon"
                 src={session.user.user_metadata.avatar_url}
                 alt="Scales of Justice Brand Image"
                 sx={iconStyle}
               />
-            </Link>
-            <Typography>{session.user.user_metadata.full_name}</Typography>
-          </Button>
+
+              <Typography>{session.user.user_metadata.full_name}</Typography>
+            </IconButton>
+          </Link>
         ) : null}
         <Button sx={style}>
           <IconButton

@@ -5,6 +5,7 @@ import LeftNavbar from "../Components/LeftNavbar";
 import CreatePost from "../Components/CreatePost";
 import ContentCard from "../Components/ContentCard";
 import { AuthSession } from "@supabase/supabase-js";
+import RightNavbar from "../Components/RightNavbar";
 
 function Home(props: { onLogOut: () => void }) {
   const [session, SetSession] = useState<AuthSession | null>();
@@ -57,7 +58,7 @@ function Home(props: { onLogOut: () => void }) {
           {/* RIGTH */}
           <Grid item xs={2}>
             <Box>
-              <h1>right content</h1>
+              <RightNavbar />
             </Box>
           </Grid>
         </Grid>
