@@ -15,7 +15,7 @@ import ThumbUpAltOutlinedIcon from "@mui/icons-material/ThumbUpAltOutlined";
 import ChatBubbleOutlineIcon from "@mui/icons-material/ChatBubbleOutline";
 import { supabase } from "../supabaseClient";
 import { useEffect, useState } from "react";
-import { Post } from "../types/posts";
+import { Post, LikedItem } from "../types/posts";
 import {
   Accordion,
   AccordionDetails,
@@ -30,6 +30,8 @@ import { Link } from "react-router-dom";
 import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
 import UndoIcon from "@mui/icons-material/Undo";
 import { toast } from "react-hot-toast";
+import { AuthSession, UserIdentity } from "@supabase/supabase-js";
+import ThumbDownIcon from "@mui/icons-material/ThumbDown";
 
 const style = {
   position: "absolute",
@@ -71,18 +73,72 @@ function formatDate(inputDate) {
 
 interface ContentCardProps {
   width: string;
+  session: AuthSession | null;
 }
 
-export default function ContentCard({ width = "680px" }: ContentCardProps) {
+export default function ContentCard({
+  width = "680px",
+  session,
+}: ContentCardProps) {
   const [open, setOpen] = useState(false);
   const handleClose = () => setOpen(false);
   const [postIdToDelete, setPostIdToDelete] = useState<number | null>(null);
   const [posts, setPosts] = useState<Post[] | null>([]);
-
+  const [likedItems, setLikedItems] = useState<LikedItem[] | null>(null);
+  const id = session?.user.id;
   const handleOpen = (postId: number | null) => {
     if (postId !== null) {
       setPostIdToDelete(postId);
       setOpen(true);
+    }
+  };
+
+  // likes
+
+  useEffect(() => {
+    const getLikes = async () => {
+      const { data, error } = await supabase
+        .from("likes")
+        .select("*")
+        .eq("user_id", session?.user.id);
+
+      if (data) {
+        setLikedItems(data);
+      }
+    };
+    getLikes();
+  }, []);
+
+  const handleLike = async (itemId: string) => {
+    const isliked = likedItems?.some((item) => item.post_id === itemId);
+
+    if (likedItems) {
+      if (isliked) {
+        const { error } = await supabase
+          .from("likes")
+          .delete()
+          .eq("user_id", id)
+          .eq("post_id", itemId);
+
+        if (!error) {
+          setLikedItems(likedItems.filter((item) => item.post_id !== itemId));
+        }
+      } else {
+        const { data, error } = await supabase
+          .from("likes")
+          .insert([{ user_id: id, post_id: itemId }]);
+
+        if (data) {
+          const newLikedItem: LikedItem = {
+            user_id: id as UserIdentity | undefined,
+            post_id: itemId,
+          };
+          const updatedLikedItems = likedItems
+            ? [...likedItems, newLikedItem]
+            : [newLikedItem];
+          setLikedItems(updatedLikedItems);
+        }
+      }
     }
   };
 
@@ -233,6 +289,7 @@ export default function ContentCard({ width = "680px" }: ContentCardProps) {
                 }}
               >
                 <IconButton
+                  onClick={() => likedItems && handleLike(id)}
                   sx={{
                     flex: "1",
                     borderRadius: "2px",
@@ -241,11 +298,21 @@ export default function ContentCard({ width = "680px" }: ContentCardProps) {
                   aria-label="Like"
                   className="card-buttons"
                 >
-                  <ThumbUpAltOutlinedIcon
-                    sx={{
-                      "&:hover": { backgroundColor: "transparent" },
-                    }}
-                  />
+                  {likedItems &&
+                  likedItems.some((liked) => liked.post_id === id) ? (
+                    <ThumbDownIcon
+                      sx={{
+                        "&:hover": { backgroundColor: "transparent" },
+                      }}
+                    />
+                  ) : (
+                    <ThumbUpAltOutlinedIcon
+                      sx={{
+                        "&:hover": { backgroundColor: "transparent" },
+                      }}
+                    />
+                  )}
+
                   <Typography sx={{ marginLeft: "5px" }}>Like</Typography>
                 </IconButton>
                 <IconButton
@@ -348,6 +415,8 @@ export default function ContentCard({ width = "680px" }: ContentCardProps) {
       </Modal>
     </>
   ) : (
-    <h1>Loading</h1>
+    <Container sx={{ display: "flex", justifyContent: "center" }}>
+      <h1>Loading</h1>
+    </Container>
   );
 }

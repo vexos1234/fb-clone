@@ -22,12 +22,11 @@ export default function RightNavbar() {
     };
     getUsers();
   }, []);
-  console.log("users:", users);
 
   return (
-    <div>
+    <>
       {users ? (
-        <Box>
+        <Box sx={{ position: "fixed", marginLeft: "20px" }}>
           <Stack>
             <Typography sx={{ marginLeft: "10px", fontWeight: "bold" }}>
               Contacts
@@ -35,7 +34,7 @@ export default function RightNavbar() {
             {users.map((user) => (
               <Button
                 sx={{
-                  width: "240px",
+                  width: "25vw",
                   height: "55px",
                   justifyContent: "start",
                   transition: "background-color 0.2s",
@@ -60,9 +59,7 @@ export default function RightNavbar() {
             ))}
           </Stack>
         </Box>
-      ) : (
-        <h1>Loading</h1>
-      )}
-    </div>
+      ) : null}
+    </>
   );
 }

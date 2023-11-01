@@ -38,7 +38,7 @@ function Home(props: { onLogOut: () => void }) {
       <div>
         {/* LEFT */}
         <Grid container sx={{ marginTop: "75px" }}>
-          <Grid display="flex" justifyContent="left" item xs={2} sx={{}}>
+          <Grid display="flex" justifyContent="left" item xs={3} sx={{}}>
             <Box>
               <LeftNavbar session={session} />
             </Box>
@@ -49,14 +49,14 @@ function Home(props: { onLogOut: () => void }) {
             justifyContent="center"
             flexDirection="column"
             item
-            xs={8}
+            xs={6}
             sx={{}}
           >
             <CreatePost session={session} width={"648px"} />
-            <ContentCard />
+            <ContentCard session={session} />
           </Grid>
           {/* RIGTH */}
-          <Grid item xs={2}>
+          <Grid display="flex" item xs={3}>
             <Box>
               <RightNavbar />
             </Box>
