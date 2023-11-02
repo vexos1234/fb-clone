@@ -31,7 +31,7 @@ import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
 import UndoIcon from "@mui/icons-material/Undo";
 import { toast } from "react-hot-toast";
 import { AuthSession, UserIdentity } from "@supabase/supabase-js";
-import ThumbDownIcon from "@mui/icons-material/ThumbDown";
+import ThumbUpIcon from "@mui/icons-material/ThumbUp";
 
 const style = {
   position: "absolute",
@@ -85,6 +85,7 @@ export default function ContentCard({
   const [postIdToDelete, setPostIdToDelete] = useState<number | null>(null);
   const [posts, setPosts] = useState<Post[] | null>([]);
   const [likedItems, setLikedItems] = useState<LikedItem[] | null>(null);
+  const [isLiked, setIsLiked] = useState<boolean | undefined>(false);
   const id = session?.user.id;
   const handleOpen = (postId: number | null) => {
     if (postId !== null) {
@@ -94,6 +95,14 @@ export default function ContentCard({
   };
 
   // likes
+
+  function fetchLikes() {
+    supabase
+      .from("likes")
+      .select()
+      .eq("post_id", id)
+      .then((result) => setLikedItems(result.data));
+  }
 
   useEffect(() => {
     const getLikes = async () => {
@@ -121,22 +130,23 @@ export default function ContentCard({
           .eq("post_id", itemId);
 
         if (!error) {
-          setLikedItems(likedItems.filter((item) => item.post_id !== itemId));
+          if (likedItems && itemId) {
+            setLikedItems(likedItems.filter((item) => item.post_id !== itemId));
+            console.log(likedItems);
+          }
         }
       } else {
         const { data, error } = await supabase
           .from("likes")
           .insert([{ user_id: id, post_id: itemId }]);
+        console.log("after insert:", likedItems);
 
         if (data) {
           const newLikedItem: LikedItem = {
             user_id: id as UserIdentity | undefined,
             post_id: itemId,
           };
-          const updatedLikedItems = likedItems
-            ? [...likedItems, newLikedItem]
-            : [newLikedItem];
-          setLikedItems(updatedLikedItems);
+          fetchLikes();
         }
       }
     }
@@ -300,9 +310,10 @@ export default function ContentCard({
                 >
                   {likedItems &&
                   likedItems.some((liked) => liked.post_id === id) ? (
-                    <ThumbDownIcon
+                    <ThumbUpIcon
                       sx={{
-                        "&:hover": { backgroundColor: "transparent" },
+                        color: "#0866FF",
+                        "&:hover": { backgroundColor: "#transparent" },
                       }}
                     />
                   ) : (
@@ -312,8 +323,14 @@ export default function ContentCard({
                       }}
                     />
                   )}
-
-                  <Typography sx={{ marginLeft: "5px" }}>Like</Typography>
+                  {likedItems &&
+                  likedItems.some((liked) => liked.post_id === id) ? (
+                    <Typography sx={{ marginLeft: "5px", color: "#0866FF" }}>
+                      Like
+                    </Typography>
+                  ) : (
+                    <Typography sx={{ marginLeft: "5px" }}>Like</Typography>
+                  )}
                 </IconButton>
                 <IconButton
                   sx={{
