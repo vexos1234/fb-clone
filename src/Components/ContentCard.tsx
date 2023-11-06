@@ -32,6 +32,7 @@ import UndoIcon from "@mui/icons-material/Undo";
 import { toast } from "react-hot-toast";
 import { AuthSession, UserIdentity } from "@supabase/supabase-js";
 import ThumbUpIcon from "@mui/icons-material/ThumbUp";
+import { LinkedCamera } from "@mui/icons-material";
 
 const style = {
   position: "absolute",
@@ -85,7 +86,6 @@ export default function ContentCard({
   const [postIdToDelete, setPostIdToDelete] = useState<number | null>(null);
   const [posts, setPosts] = useState<Post[] | null>([]);
   const [likedItems, setLikedItems] = useState<LikedItem[] | null>(null);
-  const [isLiked, setIsLiked] = useState<boolean | undefined>(false);
   const id = session?.user.id;
   const handleOpen = (postId: number | null) => {
     if (postId !== null) {
@@ -108,49 +108,68 @@ export default function ContentCard({
     const getLikes = async () => {
       const { data, error } = await supabase
         .from("likes")
-        .select("*")
+        .select()
         .eq("user_id", session?.user.id);
 
       if (data) {
         setLikedItems(data);
+        console.log("likes:", data);
       }
     };
     getLikes();
   }, []);
+  const isLiked: boolean = !!likedItems?.find((like) => like.user_id === id);
 
-  const handleLike = async (itemId: string) => {
-    const isliked = likedItems?.some((item) => item.post_id === itemId);
-
-    if (likedItems) {
-      if (isliked) {
-        const { error } = await supabase
-          .from("likes")
-          .delete()
-          .eq("user_id", id)
-          .eq("post_id", itemId);
-
-        if (!error) {
-          if (likedItems && itemId) {
-            setLikedItems(likedItems.filter((item) => item.post_id !== itemId));
-            console.log(likedItems);
-          }
-        }
-      } else {
-        const { data, error } = await supabase
-          .from("likes")
-          .insert([{ user_id: id, post_id: itemId }]);
-        console.log("after insert:", likedItems);
-
-        if (data) {
-          const newLikedItem: LikedItem = {
-            user_id: id as UserIdentity | undefined,
-            post_id: itemId,
-          };
-          fetchLikes();
-        }
-      }
+  function handleLike(postId: string) {
+    if (isLiked) {
+      alert("you already like this post");
     }
-  };
+    supabase
+      .from("likes")
+      .insert({
+        post_id: postId,
+        user_id: id,
+      })
+      .then((result) => {
+        console.log(result);
+        fetchLikes();
+      });
+  }
+
+  // const handleLike = async (itemId: string) => {
+  //   const isliked = likedItems?.some((item) => item.post_id === itemId);
+
+  //   if (likedItems) {
+  //     if (isliked) {
+  //       const { error } = await supabase
+  //         .from("likes")
+  //         .delete()
+  //         .eq("user_id", id)
+  //         .eq("post_id", itemId);
+
+  //       if (!error) {
+  //         if (likedItems && itemId) {
+  //           setLikedItems(likedItems.filter((item) => item.post_id !== itemId));
+  //           console.log(likedItems);
+  //         }
+  //       }
+  //     } else {
+  //       const { data, error } = await supabase
+  //         .from("likes")
+  //         .insert([{ user_id: id, post_id: itemId }]);
+  //       console.log("after insert:", likedItems);
+  //       if (error) {
+  //         console.log(error);
+  //       } else if (data) {
+  //         const newLikedItem: LikedItem = {
+  //           user_id: id as UserIdentity | undefined,
+  //           post_id: itemId,
+  //         };
+  //         fetchLikes();
+  //       }
+  //     }
+  //   }
+  // };
 
   useEffect(() => {
     async function getPosts() {
