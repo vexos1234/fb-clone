@@ -19,7 +19,7 @@ function Layout(props: { onLogOut: () => void }) {
   if (session !== undefined)
     return (
       <div className="layout-container">
-        <TopNavbar session={session} />
+        <TopNavbar />
         <Toaster position="top-center" />
 
         <Outlet />

@@ -4,6 +4,7 @@ import {
   Button,
   Grid,
   IconButton,
+  Popover,
   Stack,
   TextField,
   Tooltip,
@@ -27,12 +28,8 @@ const ovalInputStyle = {
 import { Link, NavLink, Outlet, useNavigate } from "react-router-dom";
 import { supabase } from "../supabaseClient";
 import FacebookIcon from "../icons/FacebookIcon";
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { AuthSession } from "@supabase/supabase-js";
-
-interface TopNavbarProps {
-  session: AuthSession | null;
-}
 
 export interface SimpleDialogProps {
   open: boolean;
@@ -40,27 +37,46 @@ export interface SimpleDialogProps {
   onClose: (value: string) => void;
 }
 
-export default function TopNavbar({ session }: TopNavbarProps) {
-  // const [session, SetSession] = useState<AuthSession | null>();
-  const navigate = useNavigate();
+export default function TopNavbar() {
+  const [session, setSession] = useState<AuthSession | null>(null);
   const iconSize = 28;
-  const active = {
-    borderBottom: "4px solid #0866FF",
+
+  useEffect(() => {
+    supabase.auth.getSession().then(({ data: { session } }) => {
+      console.log("session on layout:", session);
+      setSession(session);
+    });
+  }, []);
+
+  const [anchorEl, setAnchorEl] = React.useState<HTMLButtonElement | null>(
+    null
+  );
+
+  const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
+    setAnchorEl(event.currentTarget);
   };
 
-  // useEffect(() => {
-  //   supabase.auth.getSession().then(({ data: { session } }) => {
-  //     console.log("session on layout:", session);
-  //     SetSession(session);
-  //   });
-  // }, []);
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
 
-  const handleSignOut = async () => {
+  const open = Boolean(anchorEl);
+  const id = open ? "simple-popover" : undefined;
+
+  const handleLogOut = async () => {
     await supabase.auth.signOut();
-    props.onLogOut();
-    navigate("/");
+    window.location.reload();
   };
 
+  // const handleSignOut = async () => {
+  //   await supabase.auth.signOut();
+  //   setSession(null);
+  //   navigate("/");
+  // };
+
+  if (!session) {
+    null;
+  }
   if (session)
     return (
       <div className="navbar-container">
@@ -74,20 +90,17 @@ export default function TopNavbar({ session }: TopNavbarProps) {
             justifyContent: "center",
             alignItems: "center",
             position: "fixed",
-          }}
-        >
+          }}>
           <Grid
             item
             xs={3}
             sx={{
               display: "flex",
               alignItems: "center",
-            }}
-          >
+            }}>
             <Stack
               direction="row"
-              sx={{ marginLeft: "5px", alignItems: "center" }}
-            >
+              sx={{ marginLeft: "5px", alignItems: "center" }}>
               <Link to="/">
                 <IconButton disableRipple>
                   <FacebookIcon />
@@ -115,16 +128,14 @@ export default function TopNavbar({ session }: TopNavbarProps) {
               display: "flex",
               textAlign: "center",
               justifyContent: "center",
-            }}
-          >
+            }}>
             {/* center icons */}
             <Stack direction="row" spacing={1} sx={{ alignItems: "center" }}>
               <NavLink
                 to="/"
                 style={({ isActive }) => ({
                   borderBottom: isActive ? "3.5px solid #007BFF" : "none", // Conditional border style
-                })}
-              >
+                })}>
                 <Tooltip title={"Home"}>
                   <Button
                     sx={{
@@ -136,8 +147,7 @@ export default function TopNavbar({ session }: TopNavbarProps) {
                       "&:hover": {
                         backgroundColor: "#F2F2F2",
                       },
-                    }}
-                  >
+                    }}>
                     <HomeIcon
                       sx={{
                         color: "#606266",
@@ -161,8 +171,7 @@ export default function TopNavbar({ session }: TopNavbarProps) {
                       "&:hover": {
                         backgroundColor: "#F2F2F2",
                       },
-                    }}
-                  >
+                    }}>
                     <OndemandVideoIcon
                       className="clickable-icon"
                       sx={{
@@ -186,8 +195,7 @@ export default function TopNavbar({ session }: TopNavbarProps) {
                       "&:hover": {
                         backgroundColor: "#F2F2F2",
                       },
-                    }}
-                  >
+                    }}>
                     <StorefrontIcon
                       className="clickable-icon"
                       sx={{
@@ -212,8 +220,7 @@ export default function TopNavbar({ session }: TopNavbarProps) {
                       "&:hover": {
                         backgroundColor: "#F2F2F2",
                       },
-                    }}
-                  >
+                    }}>
                     <GroupIcon
                       className="clickable-icon"
                       sx={{
@@ -238,8 +245,7 @@ export default function TopNavbar({ session }: TopNavbarProps) {
                       "&:hover": {
                         backgroundColor: "#F2F2F2",
                       },
-                    }}
-                  >
+                    }}>
                     <VideogameAssetIcon
                       className="clickable-icon"
                       sx={{
@@ -257,8 +263,7 @@ export default function TopNavbar({ session }: TopNavbarProps) {
             <Stack
               direction="row"
               spacing={1}
-              sx={{ marginRight: "15px", alignItems: "center" }}
-            >
+              sx={{ marginRight: "5px", alignItems: "center" }}>
               <Tooltip title={"Apps"}>
                 <IconButton
                   sx={{
@@ -273,8 +278,7 @@ export default function TopNavbar({ session }: TopNavbarProps) {
                     "&:hover": {
                       backgroundColor: "#ccc",
                     },
-                  }}
-                >
+                  }}>
                   <AppsIcon sx={{ color: "#000000" }} />
                 </IconButton>
               </Tooltip>
@@ -292,8 +296,7 @@ export default function TopNavbar({ session }: TopNavbarProps) {
                     "&:hover": {
                       backgroundColor: "#ccc",
                     },
-                  }}
-                >
+                  }}>
                   <MarkChatUnreadIcon sx={{ color: "#000000" }} />
                 </IconButton>
               </Tooltip>
@@ -311,13 +314,12 @@ export default function TopNavbar({ session }: TopNavbarProps) {
                     "&:hover": {
                       backgroundColor: "#ccc",
                     },
-                  }}
-                >
+                  }}>
                   <NotificationsIcon sx={{ color: "#000000" }} />
                 </IconButton>
               </Tooltip>
 
-              <Link to="/profile">
+              <IconButton disableRipple={true} onClick={handleClick}>
                 <Tooltip title={"account"}>
                   <Avatar
                     className="clickable-icon"
@@ -326,7 +328,30 @@ export default function TopNavbar({ session }: TopNavbarProps) {
                     sx={{ width: 40, height: 40 }}
                   />
                 </Tooltip>
-              </Link>
+              </IconButton>
+              <Popover
+                sx={{
+                  width: "20vw",
+                  padding: "10px",
+                  display: "flex",
+                }}
+                id={id}
+                open={open}
+                anchorEl={anchorEl}
+                onClose={handleClose}
+                anchorOrigin={{
+                  vertical: "bottom",
+                  horizontal: "left",
+                }}
+                transformOrigin={{
+                  vertical: "top",
+                  horizontal: "center",
+                }}>
+                <Link to="/profile">
+                  <Button>Profile</Button>
+                </Link>
+                <Button onClick={handleLogOut}>Log Out</Button>
+              </Popover>
             </Stack>
           </Grid>
         </Grid>

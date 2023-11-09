@@ -38,7 +38,6 @@ const style = {
   bgcolor: "background.paper",
   boxShadow: 12,
   borderRadius: "10px",
-  minWidth: "500px",
   maxHeight: "550px",
 };
 
@@ -114,25 +113,21 @@ function CreatePost({ session, width }: TopNavbarProps) {
           sx={{
             display: "flex",
             justifyContent: "center",
-          }}
-        >
+          }}>
           <Card
             sx={{
               background: "#fff",
               color: "#000000",
               // width: "648px",
               width: { width },
-              maxWidth: "680px",
               borderRadius: "10px",
               padding: "16px",
-            }}
-          >
+            }}>
             <Stack
               direction="row"
               spacing={1}
               borderBottom="2px solid #F0F2F5"
-              height="52px"
-            >
+              height="52px">
               <Link to="/profile">
                 <Avatar
                   className="clickable-icon"
@@ -162,8 +157,7 @@ function CreatePost({ session, width }: TopNavbarProps) {
                   flex: "1",
                   borderRadius: "10px",
                   transition: "background-color 0.1s, color 0.1s",
-                }}
-              >
+                }}>
                 <VideoCameraFrontIcon
                   sx={{ color: "#E42645", fontSize: "30px" }}
                 />
@@ -171,8 +165,7 @@ function CreatePost({ session, width }: TopNavbarProps) {
               </IconButton>
               <IconButton
                 onClick={handleOpen}
-                sx={{ flex: "1", borderRadius: "10px" }}
-              >
+                sx={{ flex: "1", borderRadius: "10px" }}>
                 <CropOriginalIcon
                   sx={{
                     color: "#44BB61",
@@ -202,20 +195,17 @@ function CreatePost({ session, width }: TopNavbarProps) {
           onClose={handleClose}
           aria-labelledby="modal-modal-title"
           aria-describedby="modal-modal-description"
-          sx={{ overflowY: "scroll" }}
-        >
+          sx={{ overflowY: "scroll" }}>
           <Box sx={style}>
             <Box
               display="flex"
               alignItems="center"
               borderBottom="2px solid #F0F2F5"
-              padding={2}
-            >
+              padding={2}>
               <Typography
                 fontWeight="bold"
                 fontSize="20px"
-                sx={{ flex: 1, textAlign: "center" }}
-              >
+                sx={{ flex: 1, textAlign: "center" }}>
                 Create Post
               </Typography>
               <IconButton
@@ -228,8 +218,7 @@ function CreatePost({ session, width }: TopNavbarProps) {
                     bgcolor: "#D8DADF",
                   },
                 }}
-                onClick={handleClose}
-              >
+                onClick={handleClose}>
                 <CloseIcon />
               </IconButton>
             </Box>
@@ -238,8 +227,7 @@ function CreatePost({ session, width }: TopNavbarProps) {
                 direction="row"
                 spacing={1}
                 padding={2}
-                marginBottom="-10px"
-              >
+                marginBottom="-10px">
                 <Link to="/profile">
                   <Avatar
                     className="clickable-icon"
@@ -268,8 +256,7 @@ function CreatePost({ session, width }: TopNavbarProps) {
                     "&::placeholder": {
                       color: "black",
                     },
-                  }}
-                ></TextField>
+                  }}></TextField>
                 <Box padding={2}>
                   <Box
                     sx={{
@@ -280,16 +267,14 @@ function CreatePost({ session, width }: TopNavbarProps) {
                       display: "flex",
                       alignItems: "center",
                       justifyContent: "space-between",
-                    }}
-                  >
+                    }}>
                     <Typography fontWeight="bold" marginLeft="10px">
                       Add to your post
                     </Typography>
                     <Box display="flex" justifyContent="right">
                       <Tooltip title={"Photo/video"} placement="top">
                         <IconButton
-                          sx={{ color: "#41B35D", marginRight: "5px" }}
-                        >
+                          sx={{ color: "#41B35D", marginRight: "5px" }}>
                           <PhotoLibraryIcon />
                         </IconButton>
                       </Tooltip>
@@ -306,8 +291,7 @@ function CreatePost({ session, width }: TopNavbarProps) {
                   <Button
                     disabled={isButtonDisabled}
                     type="submit"
-                    sx={buttonStyles}
-                  >
+                    sx={buttonStyles}>
                     Post
                   </Button>
                 </Box>
