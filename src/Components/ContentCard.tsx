@@ -113,60 +113,58 @@ export default function ContentCard({
 
       if (data) {
         setLikedItems(data);
-        console.log("likes:", data);
       }
     };
     getLikes();
   }, []);
   const isLiked: boolean = !!likedItems?.find((like) => like.user_id === id);
 
-  function handleLike(postId: string) {
-    supabase
-      .from("likes")
-      .insert({
-        post_id: postId,
-        user_id: id,
-      })
-      .then((result) => {
-        console.log(result);
-        fetchLikes();
-      });
-  }
+  // function handleLike(postId: string) {
+  //   supabase
+  //     .from("likes")
+  //     .insert({
+  //       post_id: postId,
+  //       user_id: id,
+  //     })
+  //     .then((result) => {
+  //       console.log(result);
+  //     });
+  // }
 
-  // const handleLike = async (itemId: string) => {
-  //   const isliked = likedItems?.some((item) => item.post_id === itemId);
+  const handleLike = async (itemId: string) => {
+    const isliked = likedItems?.some((item) => item.post_id === itemId);
 
-  //   if (likedItems) {
-  //     if (isliked) {
-  //       const { error } = await supabase
-  //         .from("likes")
-  //         .delete()
-  //         .eq("user_id", id)
-  //         .eq("post_id", itemId);
+    if (likedItems) {
+      if (isliked) {
+        const { error } = await supabase
+          .from("likes")
+          .delete()
+          .eq("user_id", id)
+          .eq("post_id", itemId);
 
-  //       if (!error) {
-  //         if (likedItems && itemId) {
-  //           setLikedItems(likedItems.filter((item) => item.post_id !== itemId));
-  //           console.log(likedItems);
-  //         }
-  //       }
-  //     } else {
-  //       const { data, error } = await supabase
-  //         .from("likes")
-  //         .insert([{ user_id: id, post_id: itemId }]);
-  //       console.log("after insert:", likedItems);
-  //       if (error) {
-  //         console.log(error);
-  //       } else if (data) {
-  //         const newLikedItem: LikedItem = {
-  //           user_id: id as UserIdentity | undefined,
-  //           post_id: itemId,
-  //         };
-  //         fetchLikes();
-  //       }
-  //     }
-  //   }
-  // };
+        if (!error) {
+          if (likedItems && itemId) {
+            setLikedItems(likedItems.filter((item) => item.post_id !== itemId));
+            console.log(likedItems);
+          }
+        }
+      } else {
+        const { data, error } = await supabase
+          .from("likes")
+          .insert([{ user_id: id, post_id: itemId }]);
+        console.log("after insert:", likedItems);
+        if (error) {
+          console.log(error);
+        } else if (data) {
+          const newLikedItem: LikedItem = {
+            user_id: id as UserIdentity | undefined,
+            post_id: itemId,
+          };
+          fetchLikes();
+        }
+      }
+    }
+  };
 
   useEffect(() => {
     async function getPosts() {
@@ -191,10 +189,14 @@ export default function ContentCard({
       .on(
         "postgres_changes",
         {
-          event: "*",
+          event: "INSERT",
           schema: "public",
+          table: "likes",
         },
-        (payload) => console.log(payload)
+        (payload) => {
+          // @ts-expect-error -- asdasd
+          setLikedItems((prev) => [...prev, payload.new]);
+        }
       )
       .subscribe();
   }, []);
@@ -206,6 +208,8 @@ export default function ContentCard({
       if (error) {
         throw error;
       }
+      // @ts-expect-error -- asdasdasda
+      setPosts((prev) => prev?.filter((post) => post.id !== postId));
       toast.success("Post deleted successfully");
       console.log(`Post with ID ${postId} deleted successfully`);
     } catch (error) {
@@ -220,7 +224,8 @@ export default function ContentCard({
           display: "flex",
           justifyContent: "center",
           marginBottom: "15px",
-        }}></Container>
+        }}
+      ></Container>
 
       {posts.map((post) => {
         const { id, user, content } = post;
@@ -232,7 +237,8 @@ export default function ContentCard({
               display: "flex",
               justifyContent: "center",
             }}
-            key={id}>
+            key={id}
+          >
             <Card
               sx={{
                 marginBottom: "16px",
@@ -241,7 +247,8 @@ export default function ContentCard({
                 // width: "680px",
                 width: { width },
                 borderRadius: "10px",
-              }}>
+              }}
+            >
               <CardHeader
                 sx={{ marginBottom: "-5px" }}
                 avatar={
@@ -254,14 +261,16 @@ export default function ContentCard({
                         objectFit: "cover",
                         marginRight: "-5px",
                       }}
-                      src={avatarUrl}></Avatar>
+                      src={avatarUrl}
+                    ></Avatar>
                   </Link>
                 }
                 action={
                   <IconButton
                     sx={{ "&:hover": { backgroundColor: "#F2F2F2" } }}
                     aria-label="settings"
-                    onClick={() => handleOpen(id)}>
+                    onClick={() => handleOpen(id)}
+                  >
                     <CloseIcon sx={{ color: "#686F78" }} />
                   </IconButton>
                 }
@@ -271,7 +280,8 @@ export default function ContentCard({
                       sx={{
                         fontWeight: "bold",
                         color: "#000000",
-                      }}>
+                      }}
+                    >
                       {userFullName}
                     </Typography>
                   </Link>
@@ -282,7 +292,8 @@ export default function ContentCard({
                       fontWeight: "bold",
                       color: "#737578",
                       fontSize: "10px",
-                    }}>
+                    }}
+                  >
                     {formatDate(post.created_at)}
                   </Typography>
                 }
@@ -291,7 +302,8 @@ export default function ContentCard({
               <Typography
                 variant="body2"
                 color="black"
-                sx={{ marginBottom: "5px", marginLeft: "15px" }}>
+                sx={{ marginBottom: "5px", marginLeft: "15px" }}
+              >
                 {content}
               </Typography>
               {post.image ? (
@@ -318,7 +330,8 @@ export default function ContentCard({
                   marginRight: "15px",
                   marginTop: "15px",
                   height: "35px",
-                }}>
+                }}
+              >
                 <IconButton
                   onClick={() => likedItems && handleLike(id)}
                   sx={{
@@ -327,7 +340,8 @@ export default function ContentCard({
                     transition: "background-color 0.1s, color 0.1s",
                   }}
                   aria-label="Like"
-                  className="card-buttons">
+                  className="card-buttons"
+                >
                   {likedItems &&
                   likedItems.some((liked) => liked.post_id === id) ? (
                     <ThumbUpIcon
@@ -359,7 +373,8 @@ export default function ContentCard({
                     transition: "background-color 0.1s, color 0.1s",
                   }}
                   aria-label="Comments"
-                  className="card-buttons">
+                  className="card-buttons"
+                >
                   <ChatBubbleOutlineIcon />
                   <Typography sx={{ marginLeft: "5px" }}>Comment</Typography>
                 </IconButton>
@@ -370,7 +385,8 @@ export default function ContentCard({
                     transition: "background-color 0.1s, color 0.1s",
                   }}
                   aria-label="Share"
-                  className="card-buttons">
+                  className="card-buttons"
+                >
                   <ShortcutIcon />
                   <Typography sx={{ marginLeft: "5px" }}>Share</Typography>
                 </IconButton>
@@ -404,7 +420,8 @@ export default function ContentCard({
         open={open}
         onClose={handleClose}
         aria-labelledby="modal-modal-title"
-        aria-describedby="modal-modal-description">
+        aria-describedby="modal-modal-description"
+      >
         <Box
           sx={{
             ...style,
@@ -412,7 +429,8 @@ export default function ContentCard({
             justifyContent: "center",
             alignItems: "center",
             display: "flex",
-          }}>
+          }}
+        >
           {/* had to add a condition if the post its from the user if he is sure he want to delete the post */}
           {/* in case the post is from other user, hide post only */}
           <Stack>
@@ -421,17 +439,20 @@ export default function ContentCard({
               id="delete confirmation"
               variant="h6"
               component="h2"
-              marginRight="15px">
+              marginRight="15px"
+            >
               Do you want to delete this post?
             </Typography>
             <Stack
               direction="row"
               spacing={5}
               display="flex"
-              justifyContent="center">
+              justifyContent="center"
+            >
               <IconButton
                 sx={{ borderRadius: "2px" }}
-                onClick={() => handleDelete(postIdToDelete)}>
+                onClick={() => handleDelete(postIdToDelete)}
+              >
                 <DeleteForeverIcon />
                 <Typography marginLeft="5px">Delete</Typography>
               </IconButton>

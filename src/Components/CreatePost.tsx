@@ -18,7 +18,7 @@ import "./styles.css";
 import VideoCameraFrontIcon from "@mui/icons-material/VideoCameraFront";
 import CropOriginalIcon from "@mui/icons-material/CropOriginal";
 import TagFacesIcon from "@mui/icons-material/TagFaces";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import CloseIcon from "@mui/icons-material/Close";
 import { supabase } from "../supabaseClient";
 import { toast } from "react-hot-toast";

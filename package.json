@@ -15,7 +15,7 @@
     "@mui/icons-material": "^5.14.13",
     "@mui/material": "^5.14.13",
     "@supabase/auth-ui-react": "^0.4.5",
-    "@supabase/supabase-js": "^2.37.0",
+    "@supabase/supabase-js": "^2.38.4",
     "@tabler/icons": "^2.38.0",
     "@tabler/icons-react": "^2.38.0",
     "axios": "^1.5.1",
