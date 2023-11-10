@@ -96,14 +96,6 @@ export default function ContentCard({
 
   // likes
 
-  function fetchLikes() {
-    supabase
-      .from("likes")
-      .select("*")
-      .eq("post_id", id)
-      .then((result) => setLikedItems(result.data));
-  }
-
   useEffect(() => {
     const getLikes = async () => {
       const { data, error } = await supabase
@@ -160,7 +152,6 @@ export default function ContentCard({
             user_id: id as UserIdentity | undefined,
             post_id: itemId,
           };
-          fetchLikes();
         }
       }
     }
@@ -184,7 +175,7 @@ export default function ContentCard({
   }, []);
 
   useEffect(() => {
-    const allChanges = supabase
+    const likesSubscription = supabase
       .channel("schema-db-changes")
       .on(
         "postgres_changes",
@@ -199,7 +190,48 @@ export default function ContentCard({
         }
       )
       .subscribe();
+
+    const postsSubscription = supabase
+      .channel("schema-db-changes")
+      .on(
+        "postgres_changes",
+        {
+          event: "INSERT",
+          schema: "public",
+          table: "likes",
+        },
+        (payload) => {
+          console.log("New post inserted:", payload.new);
+          // @ts-expect-error -- asdasdasd
+          setPosts((prev) => [...prev, payload.new]);
+        }
+      )
+      .subscribe();
+
+    return () => {
+      likesSubscription.unsubscribe();
+      postsSubscription.unsubscribe();
+    };
   }, []);
+
+  // useEffect(() => {
+  //   const changes = supabase
+  //     .channel("schema-db-changes")
+  //     .on(
+  //       "postgres_changes",
+  //       {
+  //         event: "INSERT",
+  //         schema: "public",
+  //         table: "posts",
+  //       },
+
+  //       (payload) => {
+  //         // @ts-expect-error -- asdasd
+  //         setPosts((prev) => [...prev, payload.new]);
+  //       }
+  //     )
+  //     .subscribe();
+  // }, []);
 
   const handleDelete = async (postId: number | null) => {
     try {
@@ -226,7 +258,6 @@ export default function ContentCard({
           marginBottom: "15px",
         }}
       ></Container>
-
       {posts.map((post) => {
         const { id, user, content } = post;
         const { name: userFullName, avatar_url: avatarUrl } = user;
