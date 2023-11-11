@@ -56,131 +56,66 @@ function LeftNavbar({ session }: TopNavbarProps) {
             </IconButton>
           </Link>
         ) : null}
-        <Button sx={style}>
-          <IconButton
-            sx={{
-              ...iconStyle,
-              "&:hover": {
-                pointerEvents: "none",
-              },
-            }}
-          >
-            <PeopleAltIcon
-              sx={{
-                width: "40px",
-                height: "40px",
-                color: "#1F9BEF",
-              }}
-            />
-          </IconButton>
-          Friends
-        </Button>
-        <Button sx={style}>
-          <IconButton
-            sx={{
-              ...iconStyle,
-              "&:hover": {
-                pointerEvents: "none",
-              },
-            }}
-          >
-            <GroupsIcon
-              sx={{ width: "40px", height: "40px", color: "#23A8F1" }}
-            />
-          </IconButton>
-          Groups
-        </Button>
-        <Button sx={style}>
-          <IconButton
-            sx={{
-              ...iconStyle,
-              "&:hover": {
-                pointerEvents: "none",
-              },
-            }}
-          >
-            <HistoryIcon sx={{ width: "40px", height: "40px" }} />
-          </IconButton>
-          Memories
-        </Button>
-        <Button sx={style}>
-          <IconButton
-            sx={{
-              ...iconStyle,
-              "&:hover": {
-                pointerEvents: "none",
-              },
-            }}
-          >
-            <BookmarkIcon sx={{ width: "40px", height: "40px" }} />
-          </IconButton>
-          Saved
-        </Button>
-        <Button sx={style}>
-          <IconButton
-            sx={{
-              ...iconStyle,
-              "&:hover": {
-                pointerEvents: "none",
-              },
-            }}
-          >
-            <OndemandVideoIcon sx={{ width: "40px", height: "40px" }} />
-          </IconButton>
-          Video
-        </Button>
-        <Button sx={style}>
-          <IconButton
-            sx={{
-              ...iconStyle,
-              "&:hover": {
-                pointerEvents: "none",
-              },
-            }}
-          >
-            <CampaignIcon sx={{ width: "40px", height: "40px" }} />
-          </IconButton>
-          Ad Center
-        </Button>
-        <Button sx={style}>
-          <IconButton
-            sx={{
-              ...iconStyle,
-              "&:hover": {
-                pointerEvents: "none",
-              },
-            }}
-          >
-            <BarChartIcon sx={{ width: "40px", height: "40px" }} />
-          </IconButton>
-          Climate Science Center
-        </Button>
-        <Button sx={style}>
-          <IconButton
-            sx={{
-              ...iconStyle,
-              "&:hover": {
-                pointerEvents: "none",
-              },
-            }}
-          >
-            <YardIcon sx={{ width: "40px", height: "40px" }} />
-          </IconButton>
-          Crisis Response
-        </Button>
-        <Button sx={style}>
-          <IconButton
-            sx={{
-              ...iconStyle,
-              "&:hover": {
-                pointerEvents: "none",
-              },
-            }}
-          >
-            <RadarIcon sx={{ width: "40px", height: "40px" }} />
-          </IconButton>
-          Feeds
-        </Button>
+        <IconButton sx={style}>
+          <PeopleAltIcon
+            sx={{ width: "40px", height: "40px", color: "#23A8F1" }}
+          />
+          <Typography sx={{ marginLeft: "10px" }}>Friends</Typography>
+        </IconButton>
+
+        <IconButton sx={style}>
+          <GroupsIcon
+            sx={{ width: "40px", height: "40px", color: "#23A8F1" }}
+          />
+          <Typography sx={{ marginLeft: "10px" }}>Groups</Typography>
+        </IconButton>
+
+        <IconButton sx={style}>
+          <HistoryIcon
+            sx={{ width: "40px", height: "40px", color: "#23A8F1" }}
+          />
+          <Typography sx={{ marginLeft: "10px" }}>Memories</Typography>
+        </IconButton>
+
+        <IconButton sx={style}>
+          <BookmarkIcon
+            sx={{ width: "40px", height: "40px", color: "#23A8F1" }}
+          />
+          <Typography sx={{ marginLeft: "10px" }}>Saved</Typography>
+        </IconButton>
+
+        <IconButton sx={style}>
+          <OndemandVideoIcon
+            sx={{ width: "40px", height: "40px", color: "#23A8F1" }}
+          />
+          <Typography sx={{ marginLeft: "10px" }}>Video</Typography>
+        </IconButton>
+
+        <IconButton sx={style}>
+          <CampaignIcon
+            sx={{ width: "40px", height: "40px", color: "#23A8F1" }}
+          />
+          <Typography sx={{ marginLeft: "10px" }}>Ad Center</Typography>
+        </IconButton>
+
+        <IconButton sx={style}>
+          <BarChartIcon
+            sx={{ width: "40px", height: "40px", color: "#23A8F1" }}
+          />
+          <Typography sx={{ marginLeft: "10px" }}>
+            Climate Sciense Center
+          </Typography>
+        </IconButton>
+
+        <IconButton sx={style}>
+          <YardIcon sx={{ width: "40px", height: "40px", color: "#23A8F1" }} />
+          <Typography sx={{ marginLeft: "10px" }}>Crisis Response</Typography>
+        </IconButton>
+
+        <IconButton sx={style}>
+          <RadarIcon sx={{ width: "40px", height: "40px", color: "#23A8F1" }} />
+          <Typography sx={{ marginLeft: "10px" }}>Feeds</Typography>
+        </IconButton>
       </Stack>
     </Box>
   );
