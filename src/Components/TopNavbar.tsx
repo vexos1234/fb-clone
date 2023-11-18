@@ -2,12 +2,14 @@ import {
   Avatar,
   Box,
   Button,
+  Container,
   Grid,
   IconButton,
   Popover,
   Stack,
   TextField,
   Tooltip,
+  Typography,
 } from "@mui/material";
 import "./styles.css";
 import HomeIcon from "@mui/icons-material/Home";
@@ -18,6 +20,7 @@ import VideogameAssetIcon from "@mui/icons-material/VideogameAsset";
 import NotificationsIcon from "@mui/icons-material/Notifications";
 import MarkChatUnreadIcon from "@mui/icons-material/MarkChatUnread";
 import AppsIcon from "@mui/icons-material/Apps";
+import LogoutIcon from "@mui/icons-material/Logout";
 
 const ovalInputStyle = {
   borderRadius: "30px",
@@ -90,17 +93,20 @@ export default function TopNavbar() {
             justifyContent: "center",
             alignItems: "center",
             position: "fixed",
-          }}>
+          }}
+        >
           <Grid
             item
             xs={3}
             sx={{
               display: "flex",
               alignItems: "center",
-            }}>
+            }}
+          >
             <Stack
               direction="row"
-              sx={{ marginLeft: "5px", alignItems: "center" }}>
+              sx={{ marginLeft: "5px", alignItems: "center" }}
+            >
               <Link to="/">
                 <IconButton disableRipple>
                   <FacebookIcon />
@@ -128,14 +134,16 @@ export default function TopNavbar() {
               display: "flex",
               textAlign: "center",
               justifyContent: "center",
-            }}>
+            }}
+          >
             {/* center icons */}
             <Stack direction="row" spacing={1} sx={{ alignItems: "center" }}>
               <NavLink
                 to="/"
                 style={({ isActive }) => ({
                   borderBottom: isActive ? "3.5px solid #007BFF" : "none", // Conditional border style
-                })}>
+                })}
+              >
                 <Tooltip title={"Home"}>
                   <Button
                     sx={{
@@ -147,7 +155,8 @@ export default function TopNavbar() {
                       "&:hover": {
                         backgroundColor: "#F2F2F2",
                       },
-                    }}>
+                    }}
+                  >
                     <HomeIcon
                       sx={{
                         color: "#606266",
@@ -171,7 +180,8 @@ export default function TopNavbar() {
                       "&:hover": {
                         backgroundColor: "#F2F2F2",
                       },
-                    }}>
+                    }}
+                  >
                     <OndemandVideoIcon
                       className="clickable-icon"
                       sx={{
@@ -195,7 +205,8 @@ export default function TopNavbar() {
                       "&:hover": {
                         backgroundColor: "#F2F2F2",
                       },
-                    }}>
+                    }}
+                  >
                     <StorefrontIcon
                       className="clickable-icon"
                       sx={{
@@ -220,7 +231,8 @@ export default function TopNavbar() {
                       "&:hover": {
                         backgroundColor: "#F2F2F2",
                       },
-                    }}>
+                    }}
+                  >
                     <GroupIcon
                       className="clickable-icon"
                       sx={{
@@ -245,7 +257,8 @@ export default function TopNavbar() {
                       "&:hover": {
                         backgroundColor: "#F2F2F2",
                       },
-                    }}>
+                    }}
+                  >
                     <VideogameAssetIcon
                       className="clickable-icon"
                       sx={{
@@ -263,7 +276,8 @@ export default function TopNavbar() {
             <Stack
               direction="row"
               spacing={1}
-              sx={{ marginRight: "5px", alignItems: "center" }}>
+              sx={{ marginRight: "5px", alignItems: "center" }}
+            >
               <Tooltip title={"Apps"}>
                 <IconButton
                   sx={{
@@ -278,7 +292,8 @@ export default function TopNavbar() {
                     "&:hover": {
                       backgroundColor: "#ccc",
                     },
-                  }}>
+                  }}
+                >
                   <AppsIcon sx={{ color: "#000000" }} />
                 </IconButton>
               </Tooltip>
@@ -296,7 +311,8 @@ export default function TopNavbar() {
                     "&:hover": {
                       backgroundColor: "#ccc",
                     },
-                  }}>
+                  }}
+                >
                   <MarkChatUnreadIcon sx={{ color: "#000000" }} />
                 </IconButton>
               </Tooltip>
@@ -314,7 +330,8 @@ export default function TopNavbar() {
                     "&:hover": {
                       backgroundColor: "#ccc",
                     },
-                  }}>
+                  }}
+                >
                   <NotificationsIcon sx={{ color: "#000000" }} />
                 </IconButton>
               </Tooltip>
@@ -330,11 +347,7 @@ export default function TopNavbar() {
                 </Tooltip>
               </IconButton>
               <Popover
-                sx={{
-                  width: "20vw",
-                  padding: "10px",
-                  display: "flex",
-                }}
+                sx={{}}
                 id={id}
                 open={open}
                 anchorEl={anchorEl}
@@ -346,11 +359,84 @@ export default function TopNavbar() {
                 transformOrigin={{
                   vertical: "top",
                   horizontal: "center",
-                }}>
-                <Link to="/profile">
-                  <Button>Profile</Button>
-                </Link>
-                <Button onClick={handleLogOut}>Log Out</Button>
+                }}
+              >
+                <Box
+                  sx={{
+                    width: "360px",
+                    padding: "15px",
+                    justifyItems: "center",
+                  }}
+                >
+                  <Stack>
+                    <Link style={{ width: "97.9%" }} to="/profile">
+                      <Box
+                        sx={{
+                          padding: "4px",
+                          boxShadow: "3",
+                          borderRadius: "5px",
+                          display: "flex",
+                          justifyContent: "center",
+                          alignItems: "center",
+                          width: "100%",
+                        }}
+                      >
+                        <IconButton
+                          sx={{
+                            width: "100%",
+                            height: "55px",
+                            justifyContent: "start",
+                            transition: "background-color 0.2s",
+                            borderRadius: "5px",
+                            "&:hover": {
+                              backgroundColor: "#F2F2F2",
+                              transition: "background-color 0.1s",
+                            },
+                          }}
+                          key={session.user.id}
+                        >
+                          <Avatar src={session.user.user_metadata.avatar_url} />
+                          <Typography
+                            sx={{
+                              textTransform: "none",
+                              color: "#000",
+                              marginLeft: "10px",
+                            }}
+                          >
+                            {session?.user.user_metadata.full_name}
+                          </Typography>
+                        </IconButton>
+                      </Box>
+                    </Link>
+                    <IconButton
+                      sx={{ borderRadius: "5px", marginTop: "10px" }}
+                      onClick={handleLogOut}
+                    >
+                      <span
+                        style={{
+                          backgroundColor: "#D8DADF",
+                          borderRadius: "50%",
+                          width: "40px",
+                          height: "40px",
+                          display: "flex",
+                          justifyContent: "center",
+                          alignItems: "center",
+                        }}
+                      >
+                        <LogoutIcon
+                          sx={{
+                            color: "#000",
+                            backgroundColor: "#D8DADF",
+                            borderRadius: "50%",
+                            fontSize: "30px",
+                          }}
+                        />
+                      </span>
+
+                      <Typography marginLeft="10px">Log Out</Typography>
+                    </IconButton>
+                  </Stack>
+                </Box>
               </Popover>
             </Stack>
           </Grid>

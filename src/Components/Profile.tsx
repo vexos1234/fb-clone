@@ -17,7 +17,8 @@ export default function Profile({ session }: TopNavbarProps) {
       <Box
         sx={{
           overflow: "visible",
-        }}>
+        }}
+      >
         <Box
           sx={{
             height: "523.34px",
@@ -27,7 +28,9 @@ export default function Profile({ session }: TopNavbarProps) {
             justifyContent: "center",
             position: "relative",
             boxShadow: "1",
-          }}>
+            width: "100vw",
+          }}
+        >
           <Box
             sx={{
               width: "1095px",
@@ -36,7 +39,8 @@ export default function Profile({ session }: TopNavbarProps) {
               alignItems: "center",
               justifyContent: "center",
               overflow: "hidden",
-            }}>
+            }}
+          >
             <img
               src="https://images.unsplash.com/photo-1682687982167-d7fb3ed8541d?auto=format&fit=crop&q=80&ixlib=rb-4.0.3&ixid=M3wxMjA3fDF8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&w=2071"
               alt="Cover Image"
@@ -60,7 +64,8 @@ export default function Profile({ session }: TopNavbarProps) {
               marginBottom: "15px",
               display: "flex",
               alignItems: "flex-end",
-            }}>
+            }}
+          >
             <Stack direction="row" alignItems="center">
               {/* PROFILE PICTURE */}
               <Avatar
@@ -82,14 +87,16 @@ export default function Profile({ session }: TopNavbarProps) {
                     display: "flex",
                     fontWeight: "bold",
                     fontSize: "26px",
-                  }}>
+                  }}
+                >
                   {session.user.user_metadata.full_name}
                 </Typography>
                 {/* NUMBER OF FRIENDS */}
                 <Typography
                   sx={{
                     marginLeft: "15px",
-                  }}>
+                  }}
+                >
                   123 friends
                 </Typography>
               </Stack>
@@ -108,8 +115,9 @@ export default function Profile({ session }: TopNavbarProps) {
             display: "flex",
             width: "1031px",
             margin: "0 auto",
-            padding: "15px",
-          }}>
+            padding: "12px",
+          }}
+        >
           {/* content */}
           <Stack direction="row" spacing={-1}>
             {/* left content */}
@@ -125,7 +133,8 @@ export default function Profile({ session }: TopNavbarProps) {
                   marginBottom: "15px",
                   boxShadow: "2",
                   padding: "15px",
-                }}>
+                }}
+              >
                 <Typography>Intro</Typography>
               </Box>
               <Box
@@ -138,7 +147,8 @@ export default function Profile({ session }: TopNavbarProps) {
                   minHeight: "400px",
                   boxShadow: "2",
                   padding: "15px",
-                }}>
+                }}
+              >
                 <Typography>Intro</Typography>
               </Box>
             </Stack>
@@ -149,7 +159,8 @@ export default function Profile({ session }: TopNavbarProps) {
                 width: "auto",
                 borderRadius: "8px",
                 height: "115px",
-              }}>
+              }}
+            >
               <CreatePost session={session} width={"37.5vw"} />
               <ContentCardProfile session={session} width={"39.5vw"} />
             </Box>

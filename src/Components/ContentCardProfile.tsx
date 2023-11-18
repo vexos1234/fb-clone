@@ -13,7 +13,8 @@ import ThumbUpAltOutlinedIcon from "@mui/icons-material/ThumbUpAltOutlined";
 import ChatBubbleOutlineIcon from "@mui/icons-material/ChatBubbleOutline";
 import { supabase } from "../supabaseClient";
 import { useEffect, useState } from "react";
-import { Post } from "../types/posts";
+import { LikedItem, Post } from "../types/posts";
+import ThumbUpIcon from "@mui/icons-material/ThumbUp";
 import {
   Accordion,
   AccordionDetails,
@@ -81,6 +82,8 @@ export default function ContentCardProfile({
   const handleClose = () => setOpen(false);
   const [postIdToDelete, setPostIdToDelete] = useState<number | null>(null);
   const [posts, setPosts] = useState<Post[] | null>([]);
+  const [likedItems, setLikedItems] = useState<LikedItem[] | null>(null);
+  const id = session?.user.id;
 
   const handleOpen = (postId: number | null) => {
     if (postId !== null) {
@@ -88,6 +91,78 @@ export default function ContentCardProfile({
       setOpen(true);
     }
   };
+
+  const handleLike = async (itemId: string) => {
+    const isliked = likedItems?.some((item) => item.post_id === itemId);
+
+    if (likedItems) {
+      if (isliked) {
+        const { error } = await supabase
+          .from("likes")
+          .delete()
+          .eq("user_id", id)
+          .eq("post_id", itemId);
+
+        if (likedItems && itemId) {
+          setLikedItems(likedItems.filter((item) => item.post_id !== itemId));
+          console.log("likedItems:", likedItems);
+        }
+      } else {
+        const { data, error } = await supabase
+          .from("likes")
+          .insert([{ user_id: id, post_id: itemId }]);
+        console.log("after insert:", likedItems);
+        if (error) {
+          console.log(error);
+        } else if (data) {
+          const newLikedItem: LikedItem = {
+            user_id: id as UserIdentity | undefined,
+            post_id: itemId,
+          };
+          setLikedItems((prev: LikedItem[] | null) => [
+            ...(prev || []),
+            newLikedItem,
+          ]);
+        }
+      }
+    }
+  };
+
+  useEffect(() => {
+    const getLikes = async () => {
+      const { data, error } = await supabase
+        .from("likes")
+        .select()
+        .eq("user_id", session?.user.id);
+      if (data) {
+        setLikedItems(data);
+      }
+    };
+    getLikes();
+  }, []);
+
+  useEffect(() => {
+    const likesSubscription = supabase
+      .channel("likes")
+      .on(
+        "postgres_changes",
+        {
+          event: "INSERT",
+          schema: "public",
+          table: "likes",
+        },
+        (payload) => {
+          console.log("likedItems:", likedItems);
+          // @ts-expect-error -- asdasd
+          setLikedItems((prev) => [...prev, payload.new]);
+        }
+      )
+      .subscribe();
+
+    return () => {
+      likesSubscription.unsubscribe();
+    };
+  }, []);
 
   useEffect(() => {
     async function getPosts(userId: string) {
@@ -249,6 +324,7 @@ export default function ContentCardProfile({
                 }}
               >
                 <IconButton
+                  onClick={() => likedItems && handleLike(id)}
                   sx={{
                     flex: "1",
                     borderRadius: "2px",
@@ -257,12 +333,29 @@ export default function ContentCardProfile({
                   aria-label="Like"
                   className="card-buttons"
                 >
-                  <ThumbUpAltOutlinedIcon
-                    sx={{
-                      "&:hover": { backgroundColor: "transparent" },
-                    }}
-                  />
-                  <Typography sx={{ marginLeft: "5px" }}>Like</Typography>
+                  {likedItems &&
+                  likedItems.some((liked) => liked.post_id === id) ? (
+                    <ThumbUpIcon
+                      sx={{
+                        color: "#0866FF",
+                        "&:hover": { backgroundColor: "#transparent" },
+                      }}
+                    />
+                  ) : (
+                    <ThumbUpAltOutlinedIcon
+                      sx={{
+                        "&:hover": { backgroundColor: "transparent" },
+                      }}
+                    />
+                  )}
+                  {likedItems &&
+                  likedItems.some((liked) => liked.post_id === id) ? (
+                    <Typography sx={{ marginLeft: "5px", color: "#0866FF" }}>
+                      Like
+                    </Typography>
+                  ) : (
+                    <Typography sx={{ marginLeft: "5px" }}>Like</Typography>
+                  )}
                 </IconButton>
                 <IconButton
                   sx={{
