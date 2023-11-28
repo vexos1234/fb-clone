@@ -24,6 +24,7 @@ import {
   Container,
   Modal,
   Stack,
+  TextField,
 } from "@mui/material";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import { Link } from "react-router-dom";
@@ -33,6 +34,7 @@ import { toast } from "react-hot-toast";
 import { AuthSession, UserIdentity } from "@supabase/supabase-js";
 import ThumbUpIcon from "@mui/icons-material/ThumbUp";
 import { LinkedCamera } from "@mui/icons-material";
+import SendIcon from "@mui/icons-material/Send";
 
 const style = {
   position: "absolute",
@@ -472,6 +474,32 @@ export default function ContentCard({
                     <Typography>comment 4</Typography>
                   </AccordionDetails>
                 </Accordion>
+                <Box marginTop="10px">
+                  <Stack direction="row" spacing={1} height="52px">
+                    <Link to="/profile">
+                      <Avatar
+                        className="clickable-icon"
+                        src={session?.user.user_metadata.avatar_url}
+                        alt="Profile picture"
+                        sx={{ width: 36, height: 36 }}
+                      />
+                    </Link>
+
+                    <TextField
+                      sx={{
+                        borderRadius: "30px",
+                        bgcolor: "#F0F2F5",
+                        height: "40px",
+                        justifyContent: "center",
+                        width: "100vw",
+                      }}
+                      focused={true}
+                      className="custom-input"
+                      placeholder="Write a public comment..."
+                    />
+                    <SendIcon sx={{ width: "30px", height: "30px" }} />
+                  </Stack>
+                </Box>
               </CardContent>
             </Card>
           </Container>
