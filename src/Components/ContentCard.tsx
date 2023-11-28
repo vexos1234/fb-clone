@@ -88,12 +88,20 @@ export default function ContentCard({
   const [postIdToDelete, setPostIdToDelete] = useState<number | null>(null);
   const [posts, setPosts] = useState<Post[] | null>([]);
   const [likedItems, setLikedItems] = useState<LikedItem[] | null>(null);
+  const [comment, setComment] = useState("");
+  const [buttonDisabled, setButtonDisabled] = useState(true);
   const id = session?.user.id;
   const handleOpen = (postId: number | null) => {
     if (postId !== null) {
       setPostIdToDelete(postId);
       setOpen(true);
     }
+  };
+
+  const handleTextFieldChange = (e: Event) => {
+    const comment = e.target?.value;
+    setComment(comment);
+    setButtonDisabled(comment === "");
   };
 
   // likes
@@ -496,8 +504,24 @@ export default function ContentCard({
                       focused={true}
                       className="custom-input"
                       placeholder="Write a public comment..."
+                      onChange={handleTextFieldChange}
+                      value={comment}
                     />
-                    <SendIcon sx={{ width: "30px", height: "30px" }} />
+                    <IconButton
+                      sx={{
+                        height: "36px",
+                        width: "36px",
+                      }}
+                      disabled={buttonDisabled}
+                    >
+                      <SendIcon
+                        sx={{
+                          width: "30px",
+                          height: "30px",
+                          backgroundColor: "transparent",
+                        }}
+                      />
+                    </IconButton>
                   </Stack>
                 </Box>
               </CardContent>

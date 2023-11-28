@@ -62,7 +62,7 @@ function CreatePost({ session, width }: TopNavbarProps) {
   const handleTextFieldChange = (e) => {
     const content = e.target.value;
     setPostContent(content);
-    setButtonDisabled(content === ""); // Update button's disabled state
+    setButtonDisabled(content === "");
   };
 
   const handleOpen = () => {
