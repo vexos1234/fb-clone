@@ -33,7 +33,6 @@ import UndoIcon from "@mui/icons-material/Undo";
 import { toast } from "react-hot-toast";
 import { AuthSession, UserIdentity } from "@supabase/supabase-js";
 import ThumbUpIcon from "@mui/icons-material/ThumbUp";
-import { LinkedCamera } from "@mui/icons-material";
 import SendIcon from "@mui/icons-material/Send";
 
 const style = {
