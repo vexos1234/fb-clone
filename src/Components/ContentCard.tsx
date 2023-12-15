@@ -97,10 +97,20 @@ export default function ContentCard({
     }
   };
 
-  const handleTextFieldChange = (e: Event) => {
+  // const handleTextFieldChange = (e: Event) => {
+  //   const comment = e.target?.value;
+  //   setComment(comment);
+  //   setButtonDisabled(comment === "");
+  // };
+
+  const handleCommentSubmit = (e) => {
+    e.preventDefault();
     const comment = e.target?.value;
     setComment(comment);
-    setButtonDisabled(comment === "");
+    console.log(comment);
+    //insert comment on bd
+
+    setComment("");
   };
 
   // likes
@@ -482,53 +492,55 @@ export default function ContentCard({
                   </AccordionDetails>
                 </Accordion>
                 <Box marginTop="10px">
-                  <Stack direction="row" spacing={1} height="52px">
-                    <Link to="/profile">
-                      <Avatar
-                        className="clickable-icon"
-                        src={session?.user.user_metadata.avatar_url}
-                        alt="Profile picture"
-                        sx={{ width: 36, height: 36 }}
-                      />
-                    </Link>
+                  <form>
+                    <Stack direction="row" spacing={1} height="25px">
+                      <Link to="/profile">
+                        <Avatar
+                          className="clickable-icon"
+                          src={session?.user.user_metadata.avatar_url}
+                          alt="Profile picture"
+                          sx={{ width: 36, height: 36 }}
+                        />
+                      </Link>
 
-                    <TextField
-                      sx={{
-                        borderRadius: "30px",
-                        bgcolor: "#F0F2F5",
-                        height: "40px",
-                        justifyContent: "center",
-                        width: "100vw",
-                      }}
-                      focused={true}
-                      className="custom-input"
-                      placeholder="Write a public comment..."
-                      onChange={handleTextFieldChange}
-                      value={comment}
-                    />
-                    <IconButton
-                      sx={{
-                        height: "36px",
-                        width: "36px",
-                      }}
-                      disabled={buttonDisabled}
-                    >
-                      <SendIcon
+                      <TextField
                         sx={{
-                          width: "30px",
-                          height: "30px",
-                          backgroundColor: "transparent",
+                          borderRadius: "30px",
+                          bgcolor: "#F0F2F5",
+                          height: "40px",
+                          justifyContent: "center",
+                          width: "100vw",
                         }}
+                        focused={true}
+                        className="custom-input"
+                        placeholder="Write a public comment..."
+                        // onChange={handleTextFieldChange}
+                        value={comment}
                       />
-                    </IconButton>
-                  </Stack>
+                      <IconButton
+                        sx={{
+                          height: "36px",
+                          width: "36px",
+                        }}
+                        disabled={buttonDisabled}
+                      >
+                        <SendIcon
+                          sx={{
+                            width: "30px",
+                            height: "30px",
+                            backgroundColor: "transparent",
+                          }}
+                        />
+                      </IconButton>
+                    </Stack>
+                  </form>
                 </Box>
               </CardContent>
             </Card>
           </Container>
         );
       })}
-      {/* maybe try to use a Basic dialog from material... */}
+
       <Modal
         sx={{
           borderRadius: "10px",
